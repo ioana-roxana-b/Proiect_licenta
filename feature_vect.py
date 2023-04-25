@@ -48,7 +48,7 @@ def small_scene_feat_vect(dir):
         for c in vect4[i]:
             concat.append(c)
         all_feat[i] = concat
-        print(len(concat))
+        #print(len(concat))
         concat = []
 
     return all_feat
@@ -74,7 +74,7 @@ def tf_idf_scene_feat_vect(dir):
         for e in vect8[i]:
             concat.append(e)
         all_feat[i] = concat
-        print(len(concat))
+        #print(len(concat))
         concat = []
     return all_feat
 
@@ -97,7 +97,7 @@ def all_sentence_features_vect(dir):
             aux1.append(avg_word_length[i][j])
             aux1.append(stopwords_count[i][j])
             aux1 += all_feat_vect[i]
-            print(len(aux1))
+            #print(len(aux1))
             sentence_features_vect[i][j] = aux1
             aux1 = []
 
