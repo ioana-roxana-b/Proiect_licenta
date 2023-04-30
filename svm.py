@@ -7,9 +7,16 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedKFold
 
-def svm():
-    # Read the data from the CSV file
-    data_df = pd.read_csv('config1.csv')
+def svm(config, pca=False):
+
+    if config == 1:
+        data_df = pd.read_csv('config1.csv')
+    elif config == 2:
+        data_df = pd.read_csv('config2.csv')
+    elif config == 3:
+        data_df = pd.read_csv('config3.csv')
+    elif config == 4:
+        data_df = pd.read_csv('config4.csv')
 
     # Split the data into X and y
     X = data_df.drop('label', axis=1).values

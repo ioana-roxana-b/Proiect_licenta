@@ -74,7 +74,7 @@ def tf_idf_scene_feat_vect(dir):
         for e in vect8[i]:
             concat.append(e)
         all_feat[i] = concat
-        print(len(concat))
+        #print(len(concat))
         concat = []
     return all_feat
 
