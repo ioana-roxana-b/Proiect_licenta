@@ -119,6 +119,8 @@ def gen_config4():
     train_df = pd.DataFrame(X_train)
     train_df['label'] = y_train
 
+    train_df.to_csv('train_data.csv', index=False)
+
     # Generate and save the test data
     test_data = feature_vect.all_sentence_features_vect('Test_dataset')
     labels_test = []
@@ -133,6 +135,4 @@ def gen_config4():
     test_df = pd.DataFrame(X_test)
     test_df['label'] = y_test
 
-    # Save all data in a single file
-    data_df = pd.concat([train_df, test_df])
-    data_df.to_csv('config4.csv', index=False)
+    test_df.to_csv('test_data.csv', index=False)

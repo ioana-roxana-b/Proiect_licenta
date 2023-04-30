@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedKFold
 
-def random_forest(config, pca=False):
+def random_forest(config, pca_red=False):
     # Read the data from the CSV file
     if config == 1:
         data_df = pd.read_csv('config1.csv')
@@ -15,8 +15,16 @@ def random_forest(config, pca=False):
     elif config == 3:
         data_df = pd.read_csv('config3.csv')
     elif config == 4:
-        data_df = pd.read_csv('config4.csv')
+        train_data_df = pd.read_csv('train_data.csv')
+        test_data_df = pd.read_csv('test_data.csv')
 
+    """""
+    # Split the data into X and y
+    X_train = train_data_df.drop('label', axis=1).values
+    y_train = train_data_df['label'].values
+    X_test = test_data_df.drop('label', axis=1).values
+    y_test = test_data_df['label'].values
+    """""
     # Split the data into X and y
     X = data_df.drop('label', axis=1).values
     y = data_df['label'].values

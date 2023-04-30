@@ -8,7 +8,7 @@ import feature_vect
 import generate_dataset
 
 if __name__ == '__main__':
-   random_forest.random_forest(config=1)
+   random_forest.random_forest(config=3)
    #svm.svm(config=1)
 
 
