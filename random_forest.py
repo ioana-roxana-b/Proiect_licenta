@@ -1,35 +1,27 @@
 import numpy as np
+import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.preprocessing import StandardScaler
-
-import feature_vect
+from sklearn.model_selection import StratifiedKFold
 
 def random_forest():
-    train_data = feature_vect.small_scene_feat_vect('Train_dataset')
-    labels = []
-    values = []
-    for i in train_data.items():
-        labels.append(i[0].split()[0])
-        values.append(i[1])
+    # Read the data from the CSV file
+    data_df = pd.read_csv('config1.csv')
 
-    X_train = np.array(values)
-    y_train = np.array(labels)
-    print("Nr scene train: ", len(y_train))
-    print("Nr fraze: ", len(X_train))
-    test_data = feature_vect.small_scene_feat_vect('Test_dataset')
+    # Split the data into X and y
+    X = data_df.drop('label', axis=1).values
+    y = data_df['label'].values
 
-    labels_test = []
-    values_test = []
-    for i in test_data.items():
-        labels_test.append(i[0].split()[0])
-        values_test.append(i[1])
+    skf = StratifiedKFold(n_splits=2, random_state=None, shuffle=False)
 
-    X_test = np.array(values_test)
-    y_test = np.array(labels_test)
-    print("Nr scene train: ", len(y_test))
-    print("Nr fraze: ", len(X_test))
+    # Perform cross-validation
+    for train_index, test_index in skf.split(X, y):
+        X_train, X_test = X[train_index], X[test_index]
+        y_train, y_test = y[train_index], y[test_index]
+
+
     # Feature scaling
     #scaler = StandardScaler()
     #X_train = scaler.fit_transform(X_train)
