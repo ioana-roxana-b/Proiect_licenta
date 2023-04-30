@@ -15,8 +15,7 @@ def random_forest(config, pca_red=False):
     elif config == 3:
         data_df = pd.read_csv('config3.csv')
     elif config == 4:
-        train_data_df = pd.read_csv('train_data.csv')
-        test_data_df = pd.read_csv('test_data.csv')
+        data_df = pd.read_csv('config4.csv')
 
     """""
     # Split the data into X and y
@@ -50,7 +49,7 @@ def random_forest(config, pca_red=False):
 
     # Training the model
     clf = RandomForestClassifier(n_estimators=500, random_state=50)
-    clf.fit(X, y)
+    clf.fit(X_train, y_train)
 
     #new_X_test = pca.fit_transform(X_test)
     # Evaluating the model
