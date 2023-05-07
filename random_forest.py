@@ -4,7 +4,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, train_test_split
+
 
 def random_forest(config, pca_red=False):
     # Read the data from the CSV file
@@ -17,41 +18,30 @@ def random_forest(config, pca_red=False):
     elif config == 4:
         data_df = pd.read_csv('config4.csv')
 
-    """""
-    # Split the data into X and y
-    X_train = train_data_df.drop('label', axis=1).values
-    y_train = train_data_df['label'].values
-    X_test = test_data_df.drop('label', axis=1).values
-    y_test = test_data_df['label'].values
-    """""
     # Split the data into X and y
     X = data_df.drop('label', axis=1).values
     y = data_df['label'].values
 
-    skf = StratifiedKFold(n_splits=2, random_state=None, shuffle=False)
-
     # Perform cross-validation
+    skf = StratifiedKFold(n_splits=2, random_state=None, shuffle=False)
     for train_index, test_index in skf.split(X, y):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
-
     # Feature scaling
-    #scaler = StandardScaler()
-    #X_train = scaler.fit_transform(X_train)
-    #X_test = scaler.transform(X_test)
-
-    X = np.concatenate((X_test, X_train))
-    y = np.concatenate((y_train, y_test))
-
-    #pca = PCA(n_components=10)
-    #new_X = pca.fit_transform(X)
+    """""
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+    """
+    # pca = PCA(n_components=10)
+    # new_X_train = pca.fit_transform(X_train)
 
     # Training the model
     clf = RandomForestClassifier(n_estimators=500, random_state=50)
     clf.fit(X_train, y_train)
 
-    #new_X_test = pca.fit_transform(X_test)
+    # new_X_test = pca.fit_transform(X_test)
     # Evaluating the model
     y_pred = clf.predict(X_test)
 

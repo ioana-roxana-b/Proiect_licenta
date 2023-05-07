@@ -45,6 +45,7 @@ def split_scenes_into_phrases(dir):
         phrases = re.split(r'[.!?]+', scenes[i])
         phrases = [phrase.strip() for phrase in phrases]
         scenes[i] = phrases
+    #print(len(scenes[i]))
     # print(scenes["Shakespeare ACT V. Scene 4."])
     return scenes
 
