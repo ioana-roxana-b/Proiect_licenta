@@ -8,11 +8,9 @@ import feature_vect
 import generate_dataset
 
 if __name__ == '__main__':
-   #dataset.split_scenes_into_phrases('Test_dataset')
-
-   #generate_dataset.gen_config41()
-   random_forest.random_forest(config=1)
-   #svm.svm(config=1)
+   #generate_dataset.gen_config4()
+   random_forest.random_forest(config=4)
+   #svm.svm(config=4)
 
 
 

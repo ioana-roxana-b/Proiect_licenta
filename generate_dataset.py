@@ -109,9 +109,10 @@ def gen_config4():
     train_data = feature_vect.all_sentence_features_vect('Train_dataset')
     labels = []
     values = []
-    for i in train_data.items():
-        labels.append(i[0].split()[0])
-        values.append(i[1])
+    for i in train_data.keys():
+        for j in train_data[i]:
+            labels.append(i.split()[0])
+            values.append(train_data[i][j])
 
     X_train = np.array(values)
     y_train = np.array(labels)
@@ -123,9 +124,10 @@ def gen_config4():
     test_data = feature_vect.all_sentence_features_vect('Test_dataset')
     labels_test = []
     values_test = []
-    for i in test_data.items():
-        labels_test.append(i[0].split()[0])
-        values_test.append(i[1])
+    for i in test_data.keys():
+        for j in test_data[i]:
+            labels_test.append(i.split()[0])
+            values_test.append(test_data[i][j])
 
     X_test = np.array(values_test)
     y_test = np.array(labels_test)
