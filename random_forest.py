@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedKFold, train_test_split
 
 
-def random_forest(config, pca_red=False):
+def random_forest(config, pca_red=False, scal=False):
     # Read the data from the CSV file
     if config == 1:
         data_df = pd.read_csv('config1.csv')
@@ -28,22 +28,30 @@ def random_forest(config, pca_red=False):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
-    # Feature scaling
-    """""
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
-    """
-    # pca = PCA(n_components=10)
-    # new_X_train = pca.fit_transform(X_train)
+    if scal == True:
+        scaler = StandardScaler()
+        X_train = scaler.fit_transform(X_train)
+        X_test = scaler.transform(X_test)
 
-    # Training the model
-    clf = RandomForestClassifier(n_estimators=500, random_state=50)
-    clf.fit(X_train, y_train)
+    if pca_red == True:
+        pca = PCA(n_components=10)
+        new_X_train = pca.fit_transform(X)
 
-    # new_X_test = pca.fit_transform(X_test)
-    # Evaluating the model
-    y_pred = clf.predict(X_test)
+        # Training the model
+        clf = RandomForestClassifier(n_estimators=500, random_state=50)
+        clf.fit(new_X_train, y)
+
+        new_X_test = pca.fit_transform(X_test)
+        # Evaluating the model
+        y_pred = clf.predict(new_X_test)
+
+    else:
+        # Training the model
+        clf = RandomForestClassifier(n_estimators=500, random_state=50)
+        clf.fit(X_train, y_train)
+
+        # Evaluating the model
+        y_pred = clf.predict(X_test)
 
     print(y_test)
     print(y_pred)

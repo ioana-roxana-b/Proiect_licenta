@@ -7,7 +7,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedKFold
 
-def svm(config, pca=False):
+def svm(config, pca=False, scal=False):
 
     if config == 1:
         data_df = pd.read_csv('config1.csv')
@@ -29,18 +29,28 @@ def svm(config, pca=False):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
-    #X = np.concatenate((X_test, X_train))
-    #y = np.concatenate((y_train, y_test))
+    if scal == True:
+        scaler = StandardScaler()
+        X_train = scaler.fit_transform(X_train)
+        X_test = scaler.transform(X_test)
 
-    #pca = PCA(n_components=10)
-    #new_X = pca.fit_transform(X)
+    if pca == True:
+        pca = PCA(n_components=10)
+        new_X = pca.fit_transform(X)
 
-    tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-    clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
-    clf.fit(X_train, y_train)
+        tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
+        clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
+        clf.fit(new_X, y)
 
-    #new_X_test = pca.fit_transform(X_test)
-    y_pred = clf.predict(X_test)
+        new_X_test = pca.fit_transform(X_test)
+        y_pred = clf.predict(new_X_test)
+    else:
+        tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
+        clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
+        clf.fit(X_train, y_train)
+
+        y_pred = clf.predict(X_test)
+
     print(y_test)
     print(y_pred)
 

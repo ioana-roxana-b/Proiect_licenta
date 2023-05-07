@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 
 import feature_vect
 
-def random_forest(config, pca_red=False):
+def random_forest(config, pca_red=False, scal=False):
     # Read the data from the CSV file
     if config == 1:
         train_data_df = pd.read_csv('train_config1.csv')
@@ -22,32 +22,39 @@ def random_forest(config, pca_red=False):
         train_data_df = pd.read_csv('train_config4.csv')
         test_data_df = pd.read_csv('test_config4.csv')
 
-    # Split the data into X and y
     X_train = train_data_df.drop('label', axis=1).values
     y_train = train_data_df['label'].values
 
     X_test = test_data_df.drop('label', axis=1).values
     y_test = test_data_df['label'].values
 
-    """""
-    # Feature scaling
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    if scal == True:
+        scaler = StandardScaler()
+        X_train = scaler.fit_transform(X_train)
+        X_test = scaler.transform(X_test)
 
-    X = np.concatenate((X_test, X_train))
-    y = np.concatenate((y_train, y_test))
+    if pca_red == True:
+        X = np.concatenate((X_test, X_train))
+        y = np.concatenate((y_train, y_test))
 
-    pca = PCA(n_components=5)
-    new_X = pca.fit_transform(X)
-    """
-    # Training the model
-    clf = RandomForestClassifier(n_estimators=500, random_state=50)
-    clf.fit(X_train, y_train)
+        pca = PCA(n_components=5)
+        new_X = pca.fit_transform(X)
 
-    #new_X_test = pca.fit_transform(X_test)
-    # Evaluating the model
-    y_pred = clf.predict(X_test)
+        # Training the model
+        clf = RandomForestClassifier(n_estimators=500, random_state=50)
+        clf.fit(new_X, y)
+
+        new_X_test = pca.fit_transform(X_test)
+        # Evaluating the model
+        y_pred = clf.predict(new_X_test)
+
+    else:
+        # Training the model
+        clf = RandomForestClassifier(n_estimators=500, random_state=50)
+        clf.fit(X_train, y_train)
+
+        # Evaluating the model
+        y_pred = clf.predict(X_test)
 
     print(y_test)
     print(y_pred)
@@ -61,3 +68,5 @@ def random_forest(config, pca_red=False):
     print("Precision: ", precision)
     print("Recall: ", recall)
     print("F1 Score: ", f1)
+
+
