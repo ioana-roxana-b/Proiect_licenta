@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.svm import SVC
@@ -6,27 +7,27 @@ from sklearn.model_selection import GridSearchCV
 import feature_vect
 
 
-def svm():
-    train_data = feature_vect.small_scene_feat_vect('Train_dataset')
-    labels = []
-    values = []
-    for i in train_data.items():
-        labels.append(i[0].split()[0])
-        values.append(i[1])
+def svm(config, pca=False):
+    if config == 1:
+        train_data_df = pd.read_csv('train_config1.csv')
+        test_data_df = pd.read_csv('test_config1.csv')
+    elif config == 2:
+        train_data_df = pd.read_csv('train_config2.csv')
+        test_data_df = pd.read_csv('test_config2.csv')
+    elif config == 3:
+        train_data_df = pd.read_csv('train_config3.csv')
+        test_data_df = pd.read_csv('test_config3.csv')
+    elif config == 4:
+        train_data_df = pd.read_csv('train_config4.csv')
+        test_data_df = pd.read_csv('test_config4.csv')
 
-    X_train = np.array(values)
-    y_train = np.array(labels)
+    # Split the data into X and y
+    X_train = train_data_df.drop('label', axis=1).values
+    y_train = train_data_df['label'].values
 
-    test_data = feature_vect.small_scene_feat_vect('Test_dataset')
+    X_test = test_data_df.drop('label', axis=1).values
+    y_test = test_data_df['label'].values
 
-    labels_test = []
-    values_test = []
-    for i in test_data.items():
-        labels_test.append(i[0].split()[0])
-        values_test.append(i[1])
-
-    X_test = np.array(values_test)
-    y_test = np.array(labels_test)
 
     X = np.concatenate((X_test, X_train))
     y = np.concatenate((y_train, y_test))

@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
@@ -6,46 +7,47 @@ from sklearn.preprocessing import StandardScaler
 
 import feature_vect
 
-def random_forest():
-    train_data = feature_vect.all_sentence_features_vect('Train_dataset')
-    labels = []
-    values = []
-    for i in train_data.items():
-        labels.append(i[0].split()[0])
-        values.append(i[1])
+def random_forest(config, pca_red=False):
+    # Read the data from the CSV file
+    if config == 1:
+        train_data_df = pd.read_csv('train_config1.csv')
+        test_data_df = pd.read_csv('test_config1.csv')
+    elif config == 2:
+        train_data_df = pd.read_csv('train_config2.csv')
+        test_data_df = pd.read_csv('test_config2.csv')
+    elif config == 3:
+        train_data_df = pd.read_csv('train_config3.csv')
+        test_data_df = pd.read_csv('test_config3.csv')
+    elif config == 4:
+        train_data_df = pd.read_csv('train_config4.csv')
+        test_data_df = pd.read_csv('test_config4.csv')
 
-    X_train = np.array(values)
-    y_train = np.array(labels)
+    # Split the data into X and y
+    X_train = train_data_df.drop('label', axis=1).values
+    y_train = train_data_df['label'].values
 
-    test_data = feature_vect.all_sentence_features_vect('Test_dataset')
+    X_test = test_data_df.drop('label', axis=1).values
+    y_test = test_data_df['label'].values
 
-    labels_test = []
-    values_test = []
-    for i in test_data.items():
-        labels_test.append(i[0].split()[0])
-        values_test.append(i[1])
-
-    X_test = np.array(values_test)
-    y_test = np.array(labels_test)
-
+    """""
     # Feature scaling
-    #scaler = StandardScaler()
-    #X_train = scaler.fit_transform(X_train)
-    #X_test = scaler.transform(X_test)
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
 
     X = np.concatenate((X_test, X_train))
     y = np.concatenate((y_train, y_test))
 
     pca = PCA(n_components=5)
     new_X = pca.fit_transform(X)
-
+    """
     # Training the model
     clf = RandomForestClassifier(n_estimators=500, random_state=50)
-    clf.fit(new_X, y)
+    clf.fit(X_train, y_train)
 
-    new_X_test = pca.fit_transform(X_test)
+    #new_X_test = pca.fit_transform(X_test)
     # Evaluating the model
-    y_pred = clf.predict(new_X_test)
+    y_pred = clf.predict(X_test)
 
     print(y_test)
     print(y_pred)
