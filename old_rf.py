@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 
 import feature_vect
 
-def random_forest(config, pca_red=False, scal=False):
+def random_forest(config, pca=False, scal=False):
     # Read the data from the CSV file
     if config == 1:
         train_data_df = pd.read_csv('train_config1.csv')
@@ -33,7 +33,7 @@ def random_forest(config, pca_red=False, scal=False):
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
 
-    if pca_red == True:
+    if pca == True:
         X = np.concatenate((X_test, X_train))
         y = np.concatenate((y_train, y_test))
 

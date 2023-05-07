@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedKFold, train_test_split
 
 
-def random_forest(config, pca_red=False, scal=False):
+def random_forest(config, pca=False, scal=False):
     # Read the data from the CSV file
     if config == 1:
         data_df = pd.read_csv('config1.csv')
@@ -33,7 +33,7 @@ def random_forest(config, pca_red=False, scal=False):
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
 
-    if pca_red == True:
+    if pca == True:
         pca = PCA(n_components=10)
         new_X_train = pca.fit_transform(X)
 
