@@ -29,15 +29,15 @@ def svm(config, pca=False):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
-    X = np.concatenate((X_test, X_train))
-    y = np.concatenate((y_train, y_test))
+    #X = np.concatenate((X_test, X_train))
+    #y = np.concatenate((y_train, y_test))
 
     #pca = PCA(n_components=10)
     #new_X = pca.fit_transform(X)
 
     tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
     clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
-    clf.fit(X, y)
+    clf.fit(X_train, y_train)
 
     #new_X_test = pca.fit_transform(X_test)
     y_pred = clf.predict(X_test)
