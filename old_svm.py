@@ -5,10 +5,11 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
-import feature_vect
+from sklearn.linear_model import Lasso
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import MinMaxScaler
 
-
-def svm(config, pca=False, scal=False):
+def svm(config, pca=False, scal=False, lasso=False, minmax=False):
     if config == 1:
         train_data_df = pd.read_csv('train_config1.csv')
         test_data_df = pd.read_csv('test_config1.csv')
@@ -28,10 +29,26 @@ def svm(config, pca=False, scal=False):
     X_test = test_data_df.drop('label', axis=1).values
     y_test = test_data_df['label'].values
 
+    if minmax == True:
+        scaler = MinMaxScaler()
+        X_train = scaler.fit_transform(X_train)
+        X_test = scaler.transform(X_test)
+
     if scal == True:
         scaler = StandardScaler()
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
+
+    if lasso == True:
+        le = LabelEncoder()
+        y_train = le.fit_transform(y_train)
+        y_test = le.transform(y_test)
+        lasso = Lasso(alpha=0.01)
+        lasso.fit(X_train, y_train)
+        coef = lasso.coef_
+        idx_nonzero = np.nonzero(coef)[0]
+        X_train = X_train[:, idx_nonzero]
+        X_test = X_test[:, idx_nonzero]
 
     if pca == True:
         X = np.concatenate((X_test, X_train))
