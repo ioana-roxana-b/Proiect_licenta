@@ -63,6 +63,7 @@ def svm(config, pca=False, scal=False, lasso=False, minmax=False):
         clf.fit(new_X, y)
         new_X_test = pca.fit_transform(X_test)
         y_pred = clf.predict(new_X_test)
+        y_pred = le.transform(y_pred)
 
     else:
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
@@ -70,7 +71,7 @@ def svm(config, pca=False, scal=False, lasso=False, minmax=False):
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
 
-    y_pred = le.transform(y_pred)
+
     print(y_test)
     print(y_pred)
 

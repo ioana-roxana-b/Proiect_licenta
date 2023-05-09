@@ -62,11 +62,13 @@ def random_forest(config, pca=False, scal=False, lasso=False, minmax=False):
 
         new_X_test = pca.fit_transform(X_test)
         y_pred = clf.predict(new_X_test)
+        y_pred = le.transform(y_pred)
 
     else:
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
+
 
     print(y_test)
     print(y_pred)
