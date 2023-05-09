@@ -10,10 +10,10 @@ import feature_vect
 import generate_dataset
 
 if __name__ == '__main__':
-   #random_forest.random_forest(config=4, pca=False, scal=False, lasso=True, minmax=True)
-   old_rf.random_forest(config=4, pca=False, scal=False, lasso=True, minmax=True)
-   #old_svm.svm(config=1, pca=False, scal=False, lasso=True, minmax=True)
-   #svm.svm(config=4, pca=False, scal=False, lasso=True, minmax=True)
+   #random_forest.random_forest(config=1, pca=False, scal=False, lasso=True, minmax=True)
+   #old_rf.random_forest(config=1, pca=True, scal=True, lasso=True, minmax=False)
+   old_svm.svm(config=4, pca=False, scal=True, lasso=True, minmax=False)
+   #svm.svm(config=1, pca=True, scal=False, lasso=False, minmax=False)
 
 
 

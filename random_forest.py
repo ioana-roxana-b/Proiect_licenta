@@ -31,6 +31,9 @@ def random_forest(config, pca=False, scal=False, lasso=False, minmax=False):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
+    le = LabelEncoder()
+    y_train = le.fit_transform(y_train)
+    y_test = le.transform(y_test)
     if minmax == True:
         scaler = MinMaxScaler()
         X_train = scaler.fit_transform(X_train)
@@ -42,34 +45,27 @@ def random_forest(config, pca=False, scal=False, lasso=False, minmax=False):
         X_test = scaler.transform(X_test)
 
     if lasso == True:
-        le = LabelEncoder()
-        y_train = le.fit_transform(y_train)
-        y_test = le.transform(y_test)
         lasso = Lasso(alpha=0.01, max_iter=10000)
         lasso.fit(X_train, y_train)
         coef = lasso.coef_
         idx_nonzero = np.nonzero(coef)[0]
         X_train = X_train[:, idx_nonzero]
         X_test = X_test[:, idx_nonzero]
+        print(len(X_train))
+        print(len(X_test))
 
     if pca == True:
         pca = PCA(n_components=10)
         new_X_train = pca.fit_transform(X)
-
-        # Training the model
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
         clf.fit(new_X_train, y)
 
         new_X_test = pca.fit_transform(X_test)
-        # Evaluating the model
         y_pred = clf.predict(new_X_test)
 
     else:
-        # Training the model
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
         clf.fit(X_train, y_train)
-
-        # Evaluating the model
         y_pred = clf.predict(X_test)
 
     print(y_test)

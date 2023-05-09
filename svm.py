@@ -32,6 +32,9 @@ def svm(config, pca=False, scal=False, lasso=False, minmax=False):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
+    le = LabelEncoder()
+    y_train = le.fit_transform(y_train)
+    y_test = le.transform(y_test)
     if minmax == True:
         scaler = MinMaxScaler()
         X_train = scaler.fit_transform(X_train)
@@ -43,33 +46,31 @@ def svm(config, pca=False, scal=False, lasso=False, minmax=False):
         X_test = scaler.transform(X_test)
 
     if lasso == True:
-        le = LabelEncoder()
-        y_train = le.fit_transform(y_train)
-        y_test = le.transform(y_test)
-        lasso = Lasso(alpha=0.01)
+        lasso = Lasso(alpha=0.01, max_iter=10000)
         lasso.fit(X_train, y_train)
         coef = lasso.coef_
         idx_nonzero = np.nonzero(coef)[0]
         X_train = X_train[:, idx_nonzero]
         X_test = X_test[:, idx_nonzero]
+        print(len(X_train))
+        print(len(X_test))
 
     if pca == True:
         pca = PCA(n_components=10)
         new_X = pca.fit_transform(X)
-
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
         clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
         clf.fit(new_X, y)
-
         new_X_test = pca.fit_transform(X_test)
         y_pred = clf.predict(new_X_test)
+
     else:
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
         clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
         clf.fit(X_train, y_train)
-
         y_pred = clf.predict(X_test)
 
+    y_pred = le.transform(y_pred)
     print(y_test)
     print(y_pred)
 
