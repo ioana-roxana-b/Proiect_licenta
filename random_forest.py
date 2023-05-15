@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 
 
-def random_forest(config, pca=False, scal=False, lasso=False, minmax=False):
+def random_forest(config, pc=False, scal=False, lasso=False, minmax=False):
     # Read the data from the CSV file
     if config == 1:
         data_df = pd.read_csv('config1.csv')
@@ -45,16 +45,16 @@ def random_forest(config, pca=False, scal=False, lasso=False, minmax=False):
         X_test = scaler.transform(X_test)
 
     if lasso == True:
-        lasso = Lasso(alpha=0.01, max_iter=10000)
-        lasso.fit(X_train, y_train)
-        coef = lasso.coef_
+        las = Lasso(alpha=0.01, max_iter=10000)
+        las.fit(X_train, y_train)
+        coef = las.coef_
         idx_nonzero = np.nonzero(coef)[0]
         X_train = X_train[:, idx_nonzero]
         X_test = X_test[:, idx_nonzero]
-        print(len(X_train))
-        print(len(X_test))
+        #print(len(X_train))
+        #print(len(X_test))
 
-    if pca == True:
+    if pc == True:
         pca = PCA(n_components=10)
         new_X_train = pca.fit_transform(X)
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
@@ -70,15 +70,26 @@ def random_forest(config, pca=False, scal=False, lasso=False, minmax=False):
         y_pred = clf.predict(X_test)
 
 
-    print(y_test)
-    print(y_pred)
+    #print(y_test)
+    #print(y_pred)
 
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='macro', zero_division=1)
     recall = recall_score(y_test, y_pred, average='macro', zero_division=1)
     f1 = f1_score(y_test, y_pred, average='macro')
-
+    """""
     print("Accuracy: ", accuracy)
     print("Precision: ", precision)
     print("Recall: ", recall)
     print("F1 Score: ", f1)
+    """
+
+    results_df = pd.DataFrame({
+        'Configuration': [f'config={config}, pca={pc}, scal={scal}, lasso={lasso}, minmax={minmax}'],
+        'Accuracy': [accuracy],
+        'Precision': [precision],
+        'Recall': [recall],
+        'F1 Score': [f1]
+        })
+    results_df.to_csv('results_random_forest.csv', mode='a', index=False)
+

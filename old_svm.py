@@ -9,7 +9,7 @@ from sklearn.linear_model import Lasso
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 
-def svm(config, pca=False, scal=False, lasso=False, minmax=False):
+def svm(config, pc=False, scal=False, lasso=False, minmax=False):
     if config == 1:
         train_data_df = pd.read_csv('train_config1.csv')
         test_data_df = pd.read_csv('test_config1.csv')
@@ -43,16 +43,16 @@ def svm(config, pca=False, scal=False, lasso=False, minmax=False):
         X_test = scaler.transform(X_test)
 
     if lasso == True:
-        lasso = Lasso(alpha=0.01)
-        lasso.fit(X_train, y_train)
-        coef = lasso.coef_
+        lass = Lasso(alpha=0.01)
+        lass.fit(X_train, y_train)
+        coef = lass.coef_
         idx_nonzero = np.nonzero(coef)[0]
         X_train = X_train[:, idx_nonzero]
         X_test = X_test[:, idx_nonzero]
-        print(len(X_train))
-        print(len(X_test))
+        #print(len(X_train))
+        #print(len(X_test))
 
-    if pca == True:
+    if pc == True:
         X = np.concatenate((X_test, X_train))
         y = np.concatenate((y_train, y_test))
 
@@ -71,15 +71,25 @@ def svm(config, pca=False, scal=False, lasso=False, minmax=False):
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
 
-    print(y_test)
-    print(y_pred)
+    #print(y_test)
+    #print(y_pred)
 
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='macro', zero_division=1)
     recall = recall_score(y_test, y_pred, average='macro', zero_division=1)
     f1 = f1_score(y_test, y_pred, average='macro')
 
+    """"
     print("Accuracy: ", accuracy)
     print("Precision: ", precision)
     print("Recall: ", recall)
     print("F1 Score: ", f1, "\n")
+    """""
+    results_df = pd.DataFrame({
+        'Configuration': [f'config={config}, pca={pc}, scal={scal}, lasso={lasso}, minmax={minmax}'],
+        'Accuracy': [accuracy],
+        'Precision': [precision],
+        'Recall': [recall],
+        'F1 Score': [f1]
+    })
+    results_df.to_csv('results_old_svm.csv', mode='a', index=False)
