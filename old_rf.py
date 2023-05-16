@@ -30,7 +30,7 @@ def random_forest(config, train_data_df, test_data_df, pc=False, scal=False, las
         X_test = scaler.transform(X_test)
 
     if lasso == True:
-        lass = Lasso(alpha=0.01)
+        lass = Lasso(alpha=0.01, max_iter=10000)
         lass.fit(X_train, y_train)
         coef = lass.coef_
         idx_nonzero = np.nonzero(coef)[0]
@@ -40,18 +40,29 @@ def random_forest(config, train_data_df, test_data_df, pc=False, scal=False, las
         #print(len(X_test))
 
     if pc == True:
-        X = np.concatenate((X_test, X_train))
-        y = np.concatenate((y_train, y_test))
+        if config!=4:
+            X = np.concatenate((X_test, X_train))
+            y = np.concatenate((y_train, y_test))
 
-        pca = PCA(n_components=10)
-        pca.fit(X)
+            pca = PCA(n_components=10)
+            pca.fit(X)
 
-        new_X = pca.transform(X)
-        new_X_test = pca.transform(X_test)
+            new_X = pca.transform(X)
+            new_X_test = pca.transform(X_test)
 
-        clf = RandomForestClassifier(n_estimators=500, random_state=50)
-        clf.fit(new_X, y)
-        y_pred = clf.predict(new_X_test)
+            clf = RandomForestClassifier(n_estimators=500, random_state=50)
+            clf.fit(new_X, y)
+            y_pred = clf.predict(new_X_test)
+        else:
+            pca = PCA(n_components=10)
+            pca.fit(X_train)
+
+            new_X = pca.transform(X_train)
+            new_X_test = pca.transform(X_test)
+
+            clf = RandomForestClassifier(n_estimators=500, random_state=50)
+            clf.fit(new_X, y_train)
+            y_pred = clf.predict(new_X_test)
 
     elif pc == False:
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
