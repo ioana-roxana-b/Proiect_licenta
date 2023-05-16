@@ -9,19 +9,7 @@ from sklearn.linear_model import Lasso
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 
-def svm(config, pc=False, scal=False, lasso=False, minmax=False):
-    if config == 1:
-        train_data_df = pd.read_csv('train_config1.csv')
-        test_data_df = pd.read_csv('test_config1.csv')
-    elif config == 2:
-        train_data_df = pd.read_csv('train_config2.csv')
-        test_data_df = pd.read_csv('test_config2.csv')
-    elif config == 3:
-        train_data_df = pd.read_csv('train_config3.csv')
-        test_data_df = pd.read_csv('test_config3.csv')
-    elif config == 4:
-        train_data_df = pd.read_csv('train_config4.csv')
-        test_data_df = pd.read_csv('test_config4.csv')
+def svm(config, train_data_df, test_data_df, pc=False, scal=False, lasso=False, minmax=False):
 
     X_train = train_data_df.drop('label', axis=1).values
     y_train = train_data_df['label'].values

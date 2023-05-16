@@ -10,16 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 
 
-def random_forest(config, pc=False, scal=False, lasso=False, minmax=False):
-    # Read the data from the CSV file
-    if config == 1:
-        data_df = pd.read_csv('config1.csv')
-    elif config == 2:
-        data_df = pd.read_csv('config2.csv')
-    elif config == 3:
-        data_df = pd.read_csv('config3.csv')
-    elif config == 4:
-        data_df = pd.read_csv('config4.csv')
+def random_forest(config, data_df, pc=False, scal=False, lasso=False, minmax=False):
 
     # Split the data into X and y
     X = data_df.drop('label', axis=1).values

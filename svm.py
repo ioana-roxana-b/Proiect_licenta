@@ -10,16 +10,8 @@ from sklearn.linear_model import Lasso
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 
-def svm(config, pc=False, scal=False, lasso=False, minmax=False):
+def svm(config, data_df, pc=False, scal=False, lasso=False, minmax=False):
 
-    if config == 1:
-        data_df = pd.read_csv('config1.csv')
-    elif config == 2:
-        data_df = pd.read_csv('config2.csv')
-    elif config == 3:
-        data_df = pd.read_csv('config3.csv')
-    elif config == 4:
-        data_df = pd.read_csv('config4.csv')
 
     # Split the data into X and y
     X = data_df.drop('label', axis=1).values
