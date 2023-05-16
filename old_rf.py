@@ -48,7 +48,7 @@ def random_forest(config, train_data_df, test_data_df, pc=False, scal=False, las
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
         clf.fit(new_X, y)
 
-        new_X_test = pca.fit_transform(X_test)
+        new_X_test = pca.transform(X_test)
         y_pred = clf.predict(new_X_test)
 
     else:
