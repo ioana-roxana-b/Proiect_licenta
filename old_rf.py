@@ -44,12 +44,15 @@ def random_forest(config, train_data_df, test_data_df, pc=False, scal=False, las
         y = np.concatenate((y_train, y_test))
 
         pca = PCA(n_components=10)
-        new_X = pca.fit_transform(X)
+        pca.fit(X)
+
+        new_X = pca.transform(X)
+        new_X_test = pca.transform(X_test)
+
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
         clf.fit(new_X, y)
-
-        new_X_test = pca.transform(X_test)
         y_pred = clf.predict(new_X_test)
+
     elif pc == False:
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
         clf.fit(X_train, y_train)

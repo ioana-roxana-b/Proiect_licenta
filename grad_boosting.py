@@ -41,11 +41,12 @@ def gradient_boosting(config, train_data_df, test_data_df, pc=False, scal=False,
         y = np.concatenate((y_train, y_test))
 
         pca = PCA(n_components=10)
-        new_X = pca.fit_transform(X)
+        pca.fit(X)
+        new_X = pca.transform(X)
+        new_X_test = pca.transform(X_test)
+
         clf = GradientBoostingClassifier(n_estimators=500, random_state=50)
         clf.fit(new_X, y)
-
-        new_X_test = pca.transform(X_test)  # use transform instead of fit_transform for test set
         y_pred = clf.predict(new_X_test)
 
     elif pc == False:

@@ -45,12 +45,12 @@ def svm(config, train_data_df, test_data_df, pc=False, scal=False, lasso=False, 
         y = np.concatenate((y_train, y_test))
 
         pca = PCA(n_components=10)
-        new_X = pca.fit_transform(X)
-
+        pca.fit(X)
+        new_X = pca.transform(X)
+        new_X_test = pca.transform(X_test)
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
         clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
         clf.fit(new_X, y)
-        new_X_test = pca.transform(X_test)
         y_pred = clf.predict(new_X_test)
 
     elif pc == False:
@@ -61,7 +61,6 @@ def svm(config, train_data_df, test_data_df, pc=False, scal=False, lasso=False, 
 
     #print(y_test)
     #print(y_pred)
-
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='macro', zero_division=1)
     recall = recall_score(y_test, y_pred, average='macro', zero_division=1)
