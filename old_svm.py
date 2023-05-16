@@ -53,7 +53,7 @@ def svm(config, train_data_df, test_data_df, pc=False, scal=False, lasso=False, 
         new_X_test = pca.transform(X_test)
         y_pred = clf.predict(new_X_test)
 
-    else:
+    elif pc == False:
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
         clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
         clf.fit(X_train, y_train)

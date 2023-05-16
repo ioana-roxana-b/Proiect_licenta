@@ -11,9 +11,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 
 def svm(config, data_df, pc=False, scal=False, lasso=False, minmax=False):
-
-
-    # Split the data into X and y
     X = data_df.drop('label', axis=1).values
     y = data_df['label'].values
 
@@ -49,20 +46,18 @@ def svm(config, data_df, pc=False, scal=False, lasso=False, minmax=False):
 
     if pc == True:
         pca = PCA(n_components=10)
-        new_X = pca.fit_transform(X)
+        new_X = pca.fit_transform(X_train)
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
         clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
-        clf.fit(new_X, y)
+        clf.fit(new_X, y_train)
         new_X_test = pca.transform(X_test)
         y_pred = clf.predict(new_X_test)
-        y_pred = le.transform(y_pred)
 
-    else:
+    elif pc == False:
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
         clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
-
 
     #print(y_test)
     #print(y_pred)

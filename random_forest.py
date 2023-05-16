@@ -47,19 +47,17 @@ def random_forest(config, data_df, pc=False, scal=False, lasso=False, minmax=Fal
 
     if pc == True:
         pca = PCA(n_components=10)
-        new_X_train = pca.fit_transform(X)
+        new_X_train = pca.fit_transform(X_train)
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
-        clf.fit(new_X_train, y)
+        clf.fit(new_X_train, y_train)
 
         new_X_test = pca.transform(X_test)
         y_pred = clf.predict(new_X_test)
-        y_pred = le.transform(y_pred)
 
-    else:
+    elif pc == False:
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
-
 
     #print(y_test)
     #print(y_pred)
