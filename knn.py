@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
-
+from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from sklearn.svm import SVC
-from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import LabelEncoder
+from sklearn.neighbors import KNeighborsClassifier
 import additional_functions as adf
-
-def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, scal=False, minmax=False, lasso=False):
+def knn(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, scal=False, minmax=False, lasso=False, n_neighbors=5):
     if shuffle:
         X = data_df.drop('label', axis=1).values
         y = data_df['label'].values
@@ -31,7 +30,7 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, s
     y_test = le.transform(y_test)
 
     if minmax == True:
-        X_train,X_test=adf.minmax_sc(X_train,X_test)
+        X_train, X_test = adf.minmax_sc(X_train, X_test)
 
     if scal == True:
         X_train, X_test = adf.stand_sc(X_train, X_test)
@@ -39,55 +38,43 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, s
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
-    if pc == True:
+    if pc:
         if shuffle:
             new_X, new_X_test = adf.pca(X_train, X_test)
-            tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-            clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
+            clf = KNeighborsClassifier(n_neighbors=n_neighbors)
             clf.fit(new_X, y_train)
             y_pred = clf.predict(new_X_test)
         else:
             if config != 4:
                 X = np.concatenate((X_test, X_train))
                 y = np.concatenate((y_train, y_test))
-                new_X, new_X_test = adf.pca(X,X_test)
-                tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-                clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
+                new_X, new_X_test = adf.pca(X, X_test)
+
+                clf = KNeighborsClassifier(n_neighbors=n_neighbors)
                 clf.fit(new_X, y)
                 y_pred = clf.predict(new_X_test)
             else:
                 new_X, new_X_test = adf.pca(X_train, X_test)
-                tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-                clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
+                clf = KNeighborsClassifier(n_neighbors=n_neighbors)
                 clf.fit(new_X, y_train)
                 y_pred = clf.predict(new_X_test)
 
-
-    elif pc == False:
-        tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-        clf = GridSearchCV(SVC(), tuned_parameters, scoring='accuracy')
+    else:
+        clf = KNeighborsClassifier(n_neighbors=n_neighbors)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
-
-    #print(y_test)
-    #print(y_pred)
 
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='macro', zero_division=1)
     recall = recall_score(y_test, y_pred, average='macro', zero_division=1)
     f1 = f1_score(y_test, y_pred, average='macro')
 
-    """"
-    print("Accuracy: ", accuracy)
-    print("Precision: ", precision)
-    print("Recall: ", recall)
-    print("F1 Score: ", f1, "\n")
-    """""
     results_df = pd.DataFrame({
-        'Configuration': [f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}'],
+        'Configuration': [
+         f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}'],
         'Accuracy': [accuracy],
         'Precision': [precision],
         'Recall': [recall],
         'F1 Score': [f1]
     })
-    results_df.to_csv('Results/results_svm.csv', mode='a', index=False)
+    results_df.to_csv('Results/results_knn.csv', mode='a', index=False)

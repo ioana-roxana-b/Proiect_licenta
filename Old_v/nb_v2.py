@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 
 
-def naive_bayes(config, data_df, pc=False, scal=False, lasso=False, minmax=False):
+def naive_bayes(config, data_df, pc=False, scal=False, minmax=False, lasso=False):
     # Split the data into X and y
     X = data_df.drop('label', axis=1).values
     y = data_df['label'].values

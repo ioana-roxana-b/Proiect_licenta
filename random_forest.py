@@ -1,59 +1,60 @@
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import StratifiedKFold, train_test_split
-from sklearn.linear_model import Lasso
+from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import MinMaxScaler
+import additional_functions as adf
 
 
-def random_forest(config, data_df, pc=False, scal=False, lasso=False, minmax=False):
+def random_forest(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, scal=False, minmax=False, lasso=False):
+    if shuffle:
+        X = data_df.drop('label', axis=1).values
+        y = data_df['label'].values
 
-    # Split the data into X and y
-    X = data_df.drop('label', axis=1).values
-    y = data_df['label'].values
+        skf = StratifiedKFold(n_splits=2, random_state=None, shuffle=False)
+        for train_index, test_index in skf.split(X, y):
+            X_train, X_test = X[train_index], X[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+    else:
+        X_train = train_data_df.drop('label', axis=1).values
+        y_train = train_data_df['label'].values
 
-    # Perform cross-validation
-    skf = StratifiedKFold(n_splits=2, random_state=None, shuffle=False)
-    for train_index, test_index in skf.split(X, y):
-        X_train, X_test = X[train_index], X[test_index]
-        y_train, y_test = y[train_index], y[test_index]
+        X_test = test_data_df.drop('label', axis=1).values
+        y_test = test_data_df['label'].values
 
     le = LabelEncoder()
     y_train = le.fit_transform(y_train)
     y_test = le.transform(y_test)
+
     if minmax == True:
-        scaler = MinMaxScaler()
-        X_train = scaler.fit_transform(X_train)
-        X_test = scaler.transform(X_test)
+        X_train, X_test = adf.minmax_sc(X_train, X_test)
 
     if scal == True:
-        scaler = StandardScaler()
-        X_train = scaler.fit_transform(X_train)
-        X_test = scaler.transform(X_test)
+        X_train, X_test = adf.stand_sc(X_train, X_test)
 
     if lasso == True:
-        las = Lasso(alpha=0.01, max_iter=10000)
-        las.fit(X_train, y_train)
-        coef = las.coef_
-        idx_nonzero = np.nonzero(coef)[0]
-        X_train = X_train[:, idx_nonzero]
-        X_test = X_test[:, idx_nonzero]
-        #print(len(X_train))
-        #print(len(X_test))
+        X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
     if pc == True:
-        pca = PCA(n_components=10)
-        new_X_train = pca.fit_transform(X_train)
-        clf = RandomForestClassifier(n_estimators=500, random_state=50)
-        clf.fit(new_X_train, y_train)
-
-        new_X_test = pca.transform(X_test)
-        y_pred = clf.predict(new_X_test)
-
+        if shuffle:
+            new_X, new_X_test = adf.pca(X_train, X_test)
+            clf = RandomForestClassifier(n_estimators=500, random_state=50)
+            clf.fit(new_X, y_train)
+            y_pred = clf.predict(new_X_test)
+        else:
+            if config != 4:
+                X = np.concatenate((X_test, X_train))
+                y = np.concatenate((y_train, y_test))
+                new_X, new_X_test = adf.pca(X, X_test)
+                clf = RandomForestClassifier(n_estimators=500, random_state=50)
+                clf.fit(new_X, y)
+                y_pred = clf.predict(new_X_test)
+            else:
+                new_X, new_X_test = adf.pca(X_train, X_test)
+                clf = RandomForestClassifier(n_estimators=500, random_state=50)
+                clf.fit(new_X, y_train)
+                y_pred = clf.predict(new_X_test)
     elif pc == False:
         clf = RandomForestClassifier(n_estimators=500, random_state=50)
         clf.fit(X_train, y_train)
@@ -80,5 +81,5 @@ def random_forest(config, data_df, pc=False, scal=False, lasso=False, minmax=Fal
         'Recall': [recall],
         'F1 Score': [f1]
         })
-    results_df.to_csv('results_random_forest.csv', mode='a', index=False)
+    results_df.to_csv('Results/results_random_forest.csv', mode='a', index=False)
 

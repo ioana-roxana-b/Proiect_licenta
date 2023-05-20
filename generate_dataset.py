@@ -17,7 +17,7 @@ def gen_config1():
 
     train_df = pd.DataFrame(X_train)
     train_df['label'] = y_train
-    train_df.to_csv('train_config1.csv', index=False)
+    train_df.to_csv('configs/train_config1.csv', index=False)
 
     # Generate and save the test data
     test_data = feature_vect.all_scene_feat_vect('Test_dataset')
@@ -32,11 +32,11 @@ def gen_config1():
 
     test_df = pd.DataFrame(X_test)
     test_df['label'] = y_test
-    test_df.to_csv('test_config1.csv', index=False)
+    test_df.to_csv('configs/test_config1.csv', index=False)
 
     # Save all data in a single file
     data_df = pd.concat([train_df, test_df])
-    data_df.to_csv('config1.csv', index=False)
+    data_df.to_csv('configs/config1.csv', index=False)
 
 
 def gen_config2():
@@ -53,7 +53,7 @@ def gen_config2():
 
     train_df = pd.DataFrame(X_train)
     train_df['label'] = y_train
-    train_df.to_csv('train_config2.csv', index=False)
+    train_df.to_csv('configs/train_config2.csv', index=False)
 
     # Generate and save the test data
     test_data = feature_vect.tf_idf_scene_feat_vect('Test_dataset')
@@ -68,11 +68,11 @@ def gen_config2():
 
     test_df = pd.DataFrame(X_test)
     test_df['label'] = y_test
-    test_df.to_csv('test_config2.csv', index=False)
+    test_df.to_csv('configs/test_config2.csv', index=False)
 
     # Save all data in a single file
     data_df = pd.concat([train_df, test_df])
-    data_df.to_csv('config2.csv', index=False)
+    data_df.to_csv('configs/config2.csv', index=False)
 def gen_config3():
 
     # Generate and save the training data
@@ -88,7 +88,7 @@ def gen_config3():
 
     train_df = pd.DataFrame(X_train)
     train_df['label'] = y_train
-    train_df.to_csv('train_config3.csv', index=False)
+    train_df.to_csv('configs/train_config3.csv', index=False)
 
     # Generate and save the test data
     test_data = feature_vect.small_scene_feat_vect('Test_dataset')
@@ -103,11 +103,11 @@ def gen_config3():
 
     test_df = pd.DataFrame(X_test)
     test_df['label'] = y_test
-    test_df.to_csv('test_config3.csv', index=False)
+    test_df.to_csv('configs/test_config3.csv', index=False)
 
     # Save all data in a single file
     data_df = pd.concat([train_df, test_df])
-    data_df.to_csv('config3.csv', index=False)
+    data_df.to_csv('configs/config3.csv', index=False)
 
 
 def gen_config4():
@@ -125,7 +125,7 @@ def gen_config4():
 
     train_df = pd.DataFrame(X_train)
     train_df['label'] = y_train
-    train_df.to_csv('train_config4.csv', index=False)
+    train_df.to_csv('configs/train_config4.csv', index=False)
 
     # Generate and save the test data
     test_data = feature_vect.all_sentence_features_vect('Test_dataset')
@@ -141,8 +141,8 @@ def gen_config4():
 
     test_df = pd.DataFrame(X_test)
     test_df['label'] = y_test
-    test_df.to_csv('test_config4.csv', index=False)
+    test_df.to_csv('configs/test_config4.csv', index=False)
 
     # Save all data in a single file
     data_df = pd.concat([train_df, test_df])
-    data_df.to_csv('config4.csv', index=False)
+    data_df.to_csv('configs/config4.csv', index=False)
