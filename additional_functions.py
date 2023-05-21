@@ -8,33 +8,24 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Lasso
 
+import pandas as pd
+
 
 def read_data(config):
-    if config == 1:
-        train_data_df = pd.read_csv('configs/train_config1.csv')
-        test_data_df = pd.read_csv('configs/test_config1.csv')
-    elif config == 2:
-        train_data_df = pd.read_csv('configs/train_config2.csv')
-        test_data_df = pd.read_csv('configs/test_config2.csv')
-    elif config == 3:
-        train_data_df = pd.read_csv('configs/train_config3.csv')
-        test_data_df = pd.read_csv('configs/test_config3.csv')
-    elif config == 4:
-        train_data_df = pd.read_csv('configs/train_config4.csv')
-        test_data_df = pd.read_csv('configs/test_config4.csv')
+    train_data_path = f'new_configs/train_config{config}.csv'
+    test_data_path = f'new_configs/test_config{config}.csv'
+
+    train_data_df = pd.read_csv(train_data_path)
+    test_data_df = pd.read_csv(test_data_path)
 
     return train_data_df, test_data_df
 
 
 def read_data_once(config):
-    if config == 1:
-        data_df = pd.read_csv('configs/config1.csv')
-    elif config == 2:
-        data_df = pd.read_csv('configs/config2.csv')
-    elif config == 3:
-        data_df = pd.read_csv('configs/config3.csv')
-    elif config == 4:
-        data_df = pd.read_csv('configs/config4.csv')
+    data_path = f'new_configs/config{config}.csv'
+
+    data_df = pd.read_csv(data_path)
+
     return data_df
 
 

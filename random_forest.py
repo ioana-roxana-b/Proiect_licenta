@@ -75,11 +75,12 @@ def random_forest(config, train_data_df, test_data_df, data_df, shuffle=False, p
     """
 
     results_df = pd.DataFrame({
-        'Configuration': [f'config={config}, pca={pc}, scal={scal}, lasso={lasso}, minmax={minmax}'],
+        'Configuration': [
+            f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}'],
         'Accuracy': [accuracy],
         'Precision': [precision],
         'Recall': [recall],
         'F1 Score': [f1]
-        })
+    })
     results_df.to_csv('Results/results_random_forest.csv', mode='a', index=False)
 
