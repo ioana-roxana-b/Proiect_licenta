@@ -83,7 +83,7 @@ def gen_config(config):
         data_df = pd.concat([train_df, test_df])
         data_df.to_csv('new_configs/config4.csv', index=False)
     elif config == 13:
-        new_c = 14
+        new_c = 13
         for k in [3, 5, 6, 7, 8, 9, 10, 11, 12]:
             train_data = feature_vect.config13('Train_dataset', k)
             labels = []
