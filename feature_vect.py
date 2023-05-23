@@ -1,3 +1,5 @@
+import sys
+
 import scenes_features
 import extra_features
 import sentence_features
@@ -232,3 +234,33 @@ def config12(dir):
         #print(len(concat))
         concat = []
     return all_feat
+
+
+def config13(dir, config):
+    sentence_length_by_word = sentence_features.sentence_length_by_word(dir)
+    sentence_length_by_characters = sentence_features.sentence_length_by_characters(dir)
+    avg_word_length = sentence_features.avg_word_length(dir)
+    stopwords_count = sentence_features.stopwords_count(dir)
+
+    config_func = getattr(sys.modules[__name__], f'config{config}')
+    all_feat_vect = config_func(dir)
+
+    sentence_features_vect = {}
+    aux1 = []
+    for i in sentence_length_by_characters.keys():
+        sentence_features_vect.setdefault(i, {})
+        for j in sentence_length_by_characters[i].keys():
+            if j == '':
+                continue
+            aux1.append(sentence_length_by_characters[i][j])
+            aux1.append(sentence_length_by_word[i][j])
+            aux1.append(avg_word_length[i][j])
+            aux1.append(stopwords_count[i][j])
+            aux1 += all_feat_vect[i]
+            # print(len(aux1))
+            sentence_features_vect[i][j] = aux1
+            aux1 = []
+
+    return sentence_features_vect
+
+

@@ -34,7 +34,7 @@ def naive_bayes(config, train_data_df, test_data_df, data_df, shuffle=False, pc=
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
-    if pc == True:
+    if pc == True and config!=9:
         if shuffle:
             new_X, new_X_test = adf.pca(X_train, X_test)
             clf = GaussianNB()
@@ -55,7 +55,7 @@ def naive_bayes(config, train_data_df, test_data_df, data_df, shuffle=False, pc=
                 y_pred = clf.predict(new_X_test)
 
 
-    else:
+    elif (pc==True and config==9) or (pc == False):
         clf = GaussianNB()
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)

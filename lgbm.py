@@ -36,7 +36,7 @@ def lightgbm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=Fal
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
-    if pc == True:
+    if pc == True and config!=9:
         if shuffle:
             new_X, new_X_test = adf.pca(X_train, X_test)
             clf = lgb.LGBMClassifier(n_estimators=500, random_state=50)
@@ -56,7 +56,7 @@ def lightgbm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=Fal
                 clf.fit(new_X, y_train)
                 y_pred = clf.predict(new_X_test)
 
-    else:
+    elif (pc==True and config==9) or (pc == False):
         clf = lgb.LGBMClassifier(n_estimators=500, random_state=50)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)

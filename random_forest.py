@@ -36,10 +36,10 @@ def random_forest(config, train_data_df, test_data_df, data_df, shuffle=False, p
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
-    if pc == True:
-        if shuffle:
+    if pc == True and config != 9:
+        if shuffle :
             new_X, new_X_test = adf.pca(X_train, X_test)
-            clf = RandomForestClassifier(n_estimators=500, random_state=50)
+            clf = RandomForestClassifier(n_estimators=1000, random_state=50)
             clf.fit(new_X, y_train)
             y_pred = clf.predict(new_X_test)
         else:
@@ -47,18 +47,19 @@ def random_forest(config, train_data_df, test_data_df, data_df, shuffle=False, p
                 X = np.concatenate((X_test, X_train))
                 y = np.concatenate((y_train, y_test))
                 new_X, new_X_test = adf.pca(X, X_test)
-                clf = RandomForestClassifier(n_estimators=500, random_state=50)
+                clf = RandomForestClassifier(n_estimators=1000, random_state=50)
                 clf.fit(new_X, y)
                 y_pred = clf.predict(new_X_test)
             else:
                 new_X, new_X_test = adf.pca(X_train, X_test)
-                clf = RandomForestClassifier(n_estimators=500, random_state=50)
+                clf = RandomForestClassifier(n_estimators=1000, random_state=50)
                 clf.fit(new_X, y_train)
                 y_pred = clf.predict(new_X_test)
-    elif pc == False:
-        clf = RandomForestClassifier(n_estimators=500, random_state=50)
+    elif (pc == True and config == 9) or (pc == False):
+        clf = RandomForestClassifier(n_estimators=1000, random_state=50)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
+
 
     #print(y_test)
     #print(y_pred)
