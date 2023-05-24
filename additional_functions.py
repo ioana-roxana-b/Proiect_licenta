@@ -1,3 +1,4 @@
+import itertools
 import os
 
 import numpy as np
@@ -9,7 +10,12 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Lasso
-
+import svm
+import random_forest
+import knn
+import naive_bayes
+import lgbm
+import grad_boosting
 import pandas as pd
 
 
@@ -86,3 +92,51 @@ def recursive_feature_elimination(X_train, y_train, n_features_to_select):
 
     X_train_rfe = rfe.transform(X_train)
     return X_train_rfe, rfe
+
+def test(lasso=False, rfe=False):
+    for i in range(12):
+        print(i + 1)
+        train, test = read_data(i + 1)
+        data = read_data_once(i + 1)
+        print(data.shape)
+        if lasso:
+            for pca, scal, lasso, minmax, shuffle in itertools.product([True, False], repeat=5):
+                if not (scal and minmax) and ((scal or minmax) or not lasso):
+                    random_forest.random_forest(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
+                                                shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+                    svm.svm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
+                            scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+
+                    naive_bayes.naive_bayes(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
+                                            shuffle=shuffle,
+                                            pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+                    lgbm.lightgbm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle,
+                                  pc=pca,
+                                  scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+                    grad_boosting.gradient_boosting(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
+                                                    shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso,
+                                                    rfe=rfe)
+                    knn.knn(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
+                            scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+        elif rfe:
+            for pca, scal, rfe, minmax, shuffle in itertools.product([True, False], repeat=5):
+                if not (scal and minmax) and ((scal or minmax) or not lasso):
+                    random_forest.random_forest(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
+                                                shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso,
+                                                rfe=rfe)
+                    svm.svm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
+                            scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+
+                    naive_bayes.naive_bayes(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
+                                            shuffle=shuffle,
+                                            pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+                    lgbm.lightgbm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle,
+                                  pc=pca,
+                                  scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+                    grad_boosting.gradient_boosting(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
+                                                    shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso,
+                                                    rfe=rfe)
+                    knn.knn(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
+                            scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+        elif rfe and lasso:
+            return
