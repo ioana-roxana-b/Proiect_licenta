@@ -73,7 +73,7 @@ def lightgbm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=Fal
 
     results_df = pd.DataFrame({
         'Configuration': [
-         f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}'],
+         f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso},rfe={rfe}'],
         'Accuracy': [accuracy],
         'Precision': [precision],
         'Recall': [recall],

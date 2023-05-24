@@ -101,7 +101,9 @@ def test(lasso=False, rfe=False):
         print(data.shape)
         if lasso:
             for pca, scal, lasso, minmax, shuffle in itertools.product([True, False], repeat=5):
+                print("1 lasso")
                 if not (scal and minmax) and ((scal or minmax) or not lasso):
+                    print("2 lasso")
                     random_forest.random_forest(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
                                                 shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
                     svm.svm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
@@ -120,7 +122,9 @@ def test(lasso=False, rfe=False):
                             scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
         elif rfe:
             for pca, scal, rfe, minmax, shuffle in itertools.product([True, False], repeat=5):
-                if not (scal and minmax) and ((scal or minmax) or not lasso):
+                print("1 rfe")
+                if not (scal and minmax) and ((scal or minmax) or not rfe):
+                    print("2 rfe")
                     random_forest.random_forest(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
                                                 shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso,
                                                 rfe=rfe)

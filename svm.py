@@ -89,7 +89,7 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
     print("F1 Score: ", f1, "\n")
     """""
     results_df = pd.DataFrame({
-        'Configuration': [f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}'],
+        'Configuration': [f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso},rfe={rfe}'],
         'Accuracy': [accuracy],
         'Precision': [precision],
         'Recall': [recall],
