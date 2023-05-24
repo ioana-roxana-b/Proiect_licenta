@@ -2,6 +2,8 @@ import os
 
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_selection import RFE
 from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
@@ -76,3 +78,11 @@ def lasso(X_train, X_test, y_train):
     # print(len(X_train))
     # print(len(X_test))
     return X_train, X_test
+
+def recursive_feature_elimination(X_train, y_train, n_features_to_select):
+    model = RandomForestClassifier(n_estimators=1000, random_state=50)
+    rfe = RFE(estimator=model, n_features_to_select=n_features_to_select)
+    rfe.fit(X_train, y_train)
+
+    X_train_rfe = rfe.transform(X_train)
+    return X_train_rfe, rfe

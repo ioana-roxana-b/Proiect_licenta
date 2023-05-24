@@ -6,7 +6,8 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 import additional_functions as adf
-def knn(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, scal=False, minmax=False, lasso=False, n_neighbors=5):
+def knn(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
+        scal=False, minmax=False, lasso=False, rfe=False, n_neighbors=5):
     if shuffle:
         X = data_df.drop('label', axis=1).values
         y = data_df['label'].values
@@ -38,7 +39,12 @@ def knn(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, s
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
-    if pc and config!=9:
+    if rfe:  # Add a flag for RFE in the function parameters
+        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train, 45)
+
+        X_test = rfe_selector.transform(X_test)
+
+    if pc and config != 9 and config != 18:
         if shuffle :
             new_X, new_X_test = adf.pca(X_train, X_test)
             clf = KNeighborsClassifier(n_neighbors=n_neighbors)
@@ -59,7 +65,7 @@ def knn(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, s
                 clf.fit(new_X, y_train)
                 y_pred = clf.predict(new_X_test)
 
-    elif (pc==True and config==9) or (pc == False):
+    elif (pc == True and (config == 9 or config == 18)) or (pc == False):
         clf = KNeighborsClassifier(n_neighbors=n_neighbors)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)

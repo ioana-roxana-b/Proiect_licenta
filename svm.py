@@ -7,7 +7,8 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.preprocessing import LabelEncoder
 import additional_functions as adf
 
-def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, scal=False, minmax=False, lasso=False):
+def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
+        scal=False, minmax=False, lasso=False, rfe=False):
     if shuffle:
         X = data_df.drop('label', axis=1).values
         y = data_df['label'].values
@@ -39,7 +40,11 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, s
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
-    if pc == True and config!=9:
+    if rfe:  # Add a flag for RFE in the function parameters
+        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train, 45)
+        X_test = rfe_selector.transform(X_test)
+
+    if pc == True and config != 9 and config != 18:
         if shuffle:
             new_X, new_X_test = adf.pca(X_train, X_test)
             tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
@@ -63,7 +68,7 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False, s
                 y_pred = clf.predict(new_X_test)
 
 
-    elif (pc==True and config==9) or (pc == False):
+    elif (pc==True and (config == 9 or config == 18)) or (pc == False):
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
         clf = GridSearchCV(SVC(degree=2), tuned_parameters, scoring='accuracy')
         clf.fit(X_train, y_train)
