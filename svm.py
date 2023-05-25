@@ -48,7 +48,7 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
         if shuffle:
             new_X, new_X_test = adf.pca(X_train, X_test)
             tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-            clf = GridSearchCV(SVC(degree=2), tuned_parameters, scoring='accuracy')
+            clf = GridSearchCV(SVC(degree=2, probability=True), tuned_parameters, scoring='accuracy')
             clf.fit(new_X, y_train)
             y_pred = clf.predict(new_X_test)
         else:
@@ -57,20 +57,20 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
                 y = np.concatenate((y_train, y_test))
                 new_X, new_X_test = adf.pca(X,X_test)
                 tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-                clf = GridSearchCV(SVC(degree=2), tuned_parameters, scoring='accuracy')
+                clf = GridSearchCV(SVC(degree=2, probability=True), tuned_parameters, scoring='accuracy')
                 clf.fit(new_X, y)
                 y_pred = clf.predict(new_X_test)
             else:
                 new_X, new_X_test = adf.pca(X_train, X_test)
                 tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-                clf = GridSearchCV(SVC(degree=2), tuned_parameters, scoring='accuracy')
+                clf = GridSearchCV(SVC(degree=2, probability=True), tuned_parameters, scoring='accuracy')
                 clf.fit(new_X, y_train)
                 y_pred = clf.predict(new_X_test)
 
 
     elif (pc==True and (config == 9 or config == 18)) or (pc == False):
         tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
-        clf = GridSearchCV(SVC(degree=2), tuned_parameters, scoring='accuracy')
+        clf = GridSearchCV(SVC(degree=2, probability=True), tuned_parameters, scoring='accuracy')
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
 
