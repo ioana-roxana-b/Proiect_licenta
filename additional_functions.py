@@ -142,22 +142,24 @@ def test(lasso=False, rfe=False, clf2=None):
                                   pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
                     """""
                     clf1 = random_forest.random_forest(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
-                                            shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                                            shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
                 clf2 = svm.svm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
-                        scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                        scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
 
                 clf3 = naive_bayes.naive_bayes(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
                                         shuffle=shuffle,
-                                        pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                                        pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
                 clf4 = lgbm.lightgbm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle,
                               pc=pca,
-                              scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                              scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
                 clf5 = grad_boosting.gradient_boosting(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
                                                 shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso,
-                                                rfe=False)
+                                                rfe=rfe)
                 clf6 = knn.knn(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
-                        scal=scal, minmax=minmax, lasso=lasso, rfe=False)
-                
+                        scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+                vote.voting(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
+                            scal=scal, minmax=minmax, lasso=lasso, rfe=rfe,
+                            clf1=clf1, clf2=clf2, clf3=clf3, clf4=clf4, clf5=clf5, clf6=clf6)
                             """
     elif rfe and lasso:
         return

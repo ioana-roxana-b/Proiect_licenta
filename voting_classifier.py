@@ -14,9 +14,8 @@ import additional_functions as adf
 
 
 def voting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
-                      scal=False, minmax=False, lasso=False, rfe=False,
+           scal=False, minmax=False, lasso=False, rfe=False,
            clf1=None, clf2=None, clf3=None, clf4=None, clf5=None, clf6=None):
-
     voting_clf = VotingClassifier(
         estimators=[
             ('rf', clf1),
@@ -26,7 +25,7 @@ def voting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False
             ('gb', clf5),
             ('knn', clf6)
         ],
-        voting='hard'  # Or 'soft' for soft voting
+        voting='soft'
     )
 
     if shuffle:
@@ -57,7 +56,7 @@ def voting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False
 
     results_df = pd.DataFrame({
         'Configuration': [
-        f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso},rfe={rfe}'],
+            f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso},rfe={rfe}'],
         'Accuracy': [accuracy],
         'Precision': [precision],
         'Recall': [recall],

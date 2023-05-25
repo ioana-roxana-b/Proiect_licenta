@@ -7,7 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 import additional_functions as adf
 def knn(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
-        scal=False, minmax=False, lasso=False, rfe=False, n_neighbors=3):
+        scal=False, minmax=False, lasso=False, rfe=False, n_neighbors=5):
     if shuffle:
         X = data_df.drop('label', axis=1).values
         y = data_df['label'].values
