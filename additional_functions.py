@@ -54,6 +54,8 @@ def delete_files():
         os.remove('Results/results_naive_bayes.csv')
     if os.path.exists('Results/results_lightgbm.csv'):
         os.remove('Results/results_lightgbm.csv')
+    if os.path.exists('Results/results_voting_classifier.csv'):
+        os.remove('Results/results_voting_classifier.csv')
 
 
 def pca(X_train, X_test):
