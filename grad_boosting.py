@@ -8,6 +8,8 @@ import additional_functions as adf
 
 def gradient_boosting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
                       scal=False, minmax=False, lasso=False, rfe=False):
+    random_state = 500
+    n_estimators = 1000
     if shuffle:
         X = data_df.drop('label', axis=1).values
         y = data_df['label'].values
@@ -36,15 +38,15 @@ def gradient_boosting(config, train_data_df, test_data_df, data_df, shuffle=Fals
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
-    if rfe:  # Add a flag for RFE in the function parameters
-        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train, 45)
+    if rfe:
+        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train, 10)
 
         X_test = rfe_selector.transform(X_test)
 
     if pc == True and config != 9 and config != 18:
         if shuffle:
             new_X, new_X_test = adf.pca(X_train, X_test)
-            clf = GradientBoostingClassifier(n_estimators=500, random_state=50)
+            clf = GradientBoostingClassifier(n_estimators=n_estimators, random_state=random_state)
             clf.fit(new_X, y_train)
             y_pred = clf.predict(new_X_test)
         else:
@@ -52,17 +54,17 @@ def gradient_boosting(config, train_data_df, test_data_df, data_df, shuffle=Fals
                 X = np.concatenate((X_test, X_train))
                 y = np.concatenate((y_train, y_test))
                 new_X, new_X_test = adf.pca(X, X_test)
-                clf = GradientBoostingClassifier(n_estimators=500, random_state=50)
+                clf = GradientBoostingClassifier(n_estimators=n_estimators, random_state=random_state)
                 clf.fit(new_X, y)
                 y_pred = clf.predict(new_X_test)
             else:
                 new_X, new_X_test = adf.pca(X_train, X_test)
-                clf = GradientBoostingClassifier(n_estimators=500, random_state=50)
+                clf = GradientBoostingClassifier(n_estimators=n_estimators, random_state=random_state)
                 clf.fit(new_X, y_train)
                 y_pred = clf.predict(new_X_test)
 
     elif (pc == True and (config == 9 or config == 18)) or (pc == False):
-        clf = GradientBoostingClassifier(n_estimators=500, random_state=50)
+        clf = GradientBoostingClassifier(n_estimators=n_estimators, random_state=random_state)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
 
@@ -80,3 +82,4 @@ def gradient_boosting(config, train_data_df, test_data_df, data_df, shuffle=Fals
         'F1 Score': [f1]
     })
     results_df.to_csv('Results/results_gradient_boosting.csv', mode='a', index=False)
+    return clf

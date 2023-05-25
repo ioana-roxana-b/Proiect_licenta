@@ -4,6 +4,6 @@ import generate_dataset
 if __name__ == '__main__':
 
    adf.delete_files()
-   adf.test(rfe=True)
+   adf.test(lasso=True)
 
 

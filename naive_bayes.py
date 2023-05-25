@@ -35,8 +35,8 @@ def naive_bayes(config, train_data_df, test_data_df, data_df, shuffle=False, pc=
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
-    if rfe:  # Add a flag for RFE in the function parameters
-        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train, 45)
+    if rfe:
+        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train, 10)
 
         X_test = rfe_selector.transform(X_test)
 
@@ -80,6 +80,5 @@ def naive_bayes(config, train_data_df, test_data_df, data_df, shuffle=False, pc=
         'F1 Score': [f1]
     })
     results_df.to_csv('Results/results_naive_bayes.csv', mode='a', index=False)
-
-
+    return clf
 
