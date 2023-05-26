@@ -94,15 +94,15 @@ def lasso(X_train, X_test, y_train):
 
 def recursive_feature_elimination(X_train, y_train, n_features_to_select):
     # model = LogisticRegression(solver='liblinear')
-    model = LinearSVC()
-    # model = DecisionTreeClassifier(random_state=50)
+    #model = LinearSVC()
+    model = DecisionTreeClassifier(random_state=500)
     rfe = RFE(estimator=model, n_features_to_select=n_features_to_select)
     rfe.fit(X_train, y_train)
     X_train_rfe = rfe.transform(X_train)
     return X_train_rfe, rfe
 
 
-def test(lasso=False, rfe=False, clf2=None):
+def test(lasso=False, rfe=False):
     if lasso:
         for i in range(12):
             print(i + 1)
@@ -112,36 +112,38 @@ def test(lasso=False, rfe=False, clf2=None):
             for pca, scal, lasso, minmax, shuffle in itertools.product([True, False], repeat=5):
                 if not (scal and minmax) and ((scal or minmax) or not lasso):
                     clf1 = random_forest.random_forest(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
-                                                shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                                                shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
                     clf2 = svm.svm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
-                            scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                            scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
 
                     clf3 = naive_bayes.naive_bayes(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
                                             shuffle=shuffle,
-                                            pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                                            pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
                     clf4 = lgbm.lightgbm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle,
                                   pc=pca,
-                                  scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                                  scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
                     clf5 = grad_boosting.gradient_boosting(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
                                                     shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso,
-                                                    rfe=False)
+                                                    rfe=rfe)
                     clf6 = knn.knn(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
-                            scal=scal, minmax=minmax, lasso=lasso, rfe=False)
+                            scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
 
                     vote.voting(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
-                            scal=scal, minmax=minmax, lasso=lasso, rfe=False,
+                            scal=scal, minmax=minmax, lasso=lasso, rfe=rfe,
                             clf1=clf1, clf2=clf2, clf3=clf3, clf4=clf4, clf5=clf5, clf6=clf6)
     elif rfe:
-        for i in range(12):
-
+        for i in range(4):
             print(i + 1)
             train, test = read_data(i + 1)
             data = read_data_once(i + 1)
             print(data.shape)
-            for pca, scal, lasso, minmax, shuffle in itertools.product([True, False], repeat=5):
-                if not (scal and minmax) and ((scal or minmax) or not lasso):
-                    lgbm.lightgbm(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle,
-                                  pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
+            for pca, scal, minmax, shuffle in itertools.product([True, False], repeat=4):
+                if not (scal and minmax) and ((scal or minmax) or not rfe):
+                    clf5 = grad_boosting.gradient_boosting(config=i + 1, train_data_df=train, test_data_df=test,
+                                                           data_df=data,
+                                                           shuffle=shuffle, pc=pca, scal=scal, minmax=minmax,
+                                                           lasso=False,
+                                                           rfe=True)
                     """""
                     clf1 = random_forest.random_forest(config=i + 1, train_data_df=train, test_data_df=test, data_df=data,
                                             shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso, rfe=rfe)
