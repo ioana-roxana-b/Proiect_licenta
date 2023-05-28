@@ -93,9 +93,9 @@ def lasso(X_train, X_test, y_train):
 
 
 def recursive_feature_elimination(X_train, y_train):
-    # model = LogisticRegression(solver='liblinear')
+    model = LogisticRegression(solver='liblinear')
     #model = LinearSVC()
-    model = DecisionTreeClassifier(random_state=50)
+    #model = DecisionTreeClassifier(random_state=50)
     # model = SVR(kernel="linear")
     rfe = RFECV(estimator=model)
     rfe.fit(X_train, y_train)
@@ -104,7 +104,7 @@ def recursive_feature_elimination(X_train, y_train):
 
 
 def test():
-    for i in range(12):
+    for i in range(4):
         print(i + 1)
         train, test = read_data(i + 1)
         data = read_data_once(i + 1)
@@ -134,7 +134,7 @@ def test():
 
                 vote.voting(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
                             scal=scal, minmax=minmax, lasso=lasso, rfe=False,
-                            clf1=clf1, clf3=clf3, clf4=clf4, clf5=clf5, clf6=clf6)
+                            clf1=clf1, clf2=clf2, clf3=clf3, clf4=clf4, clf5=clf5, clf6=clf6)
 def test_rfe():
     for i in range(4):
         print(i + 1)
@@ -166,4 +166,4 @@ def test_rfe():
 
                 vote.voting(config=i + 1, train_data_df=train, test_data_df=test, data_df=data, shuffle=shuffle, pc=pca,
                             scal=scal, minmax=minmax, lasso=False, rfe=rfe,
-                            clf1=clf1, clf3=clf3, clf4=clf4, clf5=clf5, clf6=clf6)
+                            clf1=clf1, clf2=clf2, clf3=clf3, clf4=clf4, clf5=clf5, clf6=clf6)

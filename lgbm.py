@@ -67,18 +67,20 @@ def lightgbm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=Fal
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
 
-    print(y_test)
-    print(y_pred)
+    #print(y_test)
+    #print(y_pred)
 
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='macro', zero_division=1)
     recall = recall_score(y_test, y_pred, average='macro', zero_division=1)
     f1 = f1_score(y_test, y_pred, average='macro')
 
+    """""
     print("Accuracy: ", accuracy)
     print("Precision: ", precision)
     print("Recall: ", recall)
     print("F1 Score: ", f1)
+    """
 
     results_df = pd.DataFrame({
         'Configuration': [

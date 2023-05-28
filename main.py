@@ -6,7 +6,8 @@ import lgbm
 if __name__ == '__main__':
 
    adf.delete_files()
-   adf.test_rfe()
+   adf.test()
+
    """""
    train, test = adf.read_data(1)
    data = adf.read_data_once(1)

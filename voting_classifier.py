@@ -19,7 +19,7 @@ def voting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False
     voting_clf = VotingClassifier(
         estimators=[
             ('rf', clf1),
-            #('svm', clf2),
+            ('svm', clf2),
             ('nb', clf3),
             ('lgbm', clf4),
             ('gb', clf5),
