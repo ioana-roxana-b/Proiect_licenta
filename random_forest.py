@@ -10,7 +10,7 @@ import additional_functions as adf
 def random_forest(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
                   scal=False, minmax=False, lasso=False, rfe=False):
     random_state = 500
-    n_estimators = 2000
+    n_estimators = 1000
     if shuffle:
         X = data_df.drop('label', axis=1).values
         y = data_df['label'].values
@@ -40,7 +40,7 @@ def random_forest(config, train_data_df, test_data_df, data_df, shuffle=False, p
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
     if rfe:
-        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train, 10)
+        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train)
         X_test = rfe_selector.transform(X_test)
 
     if pc == True and config != 9 and config != 18:

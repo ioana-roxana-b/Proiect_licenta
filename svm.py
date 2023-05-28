@@ -41,7 +41,7 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
     if rfe:
-        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train, 10)
+        X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train)
         X_test = rfe_selector.transform(X_test)
 
     if pc == True and config != 9 and config != 18:

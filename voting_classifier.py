@@ -19,7 +19,7 @@ def voting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False
     voting_clf = VotingClassifier(
         estimators=[
             ('rf', clf1),
-            ('svm', clf2),
+            #('svm', clf2),
             ('nb', clf3),
             ('lgbm', clf4),
             ('gb', clf5),
@@ -48,6 +48,7 @@ def voting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False
 
     # Make predictions with the VotingClassifier
     y_pred = voting_clf.predict(X_test)
+
 
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='macro', zero_division=1)
