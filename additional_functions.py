@@ -1,7 +1,7 @@
 import glob
 import os
 import numpy as np
-from sklearn.feature_selection import RFECV
+from sklearn.feature_selection import RFECV, SelectFromModel
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
@@ -69,6 +69,18 @@ def lasso(X_train, X_test, y_train):
     X_test = X_test[:, idx_nonzero]
     # print(len(X_train))
     # print(len(X_test))
+    return X_train, X_test
+
+def lasso_threshold(X_train, X_test, y_train):
+    threshold = 0.01
+    lasso = Lasso(alpha=0.01, max_iter=100000, tol=1e-4)
+    lasso.fit(X_train, y_train)
+    coef = lasso.coef_
+
+    idx_above_threshold = np.where(np.abs(coef) > threshold)[0]
+    X_train = X_train[:, idx_above_threshold]
+    X_test = X_test[:, idx_above_threshold]
+
     return X_train, X_test
 
 

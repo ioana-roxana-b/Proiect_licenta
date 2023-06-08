@@ -6,7 +6,7 @@ from sklearn.preprocessing import LabelEncoder
 import additional_functions as adf
 import models
 def classification(c, config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
-                  scal=False, minmax=False, lasso=False, rfe=False):
+                  scal=False, minmax=False, lasso=False, lasso_t=False, rfe=False):
 
     if shuffle:
         X = data_df.drop('label', axis=1).values
@@ -36,6 +36,9 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
     if lasso == True:
         X_train, X_test = adf.lasso(X_train, X_test, y_train)
 
+    if lasso_t == True:
+        X_train, X_test = adf.lasso_threshold(X_train, X_test, y_train)
+
     if rfe:
         X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train)
         X_test = rfe_selector.transform(X_test)
@@ -64,7 +67,7 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
     results_df = pd.DataFrame({
         'Classifier': [clf_name],
         'Configuration': [
-            f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}, rfe={rfe}'],
+        f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}, lasso_threshold={lasso_t}, rfe={rfe}'],
         'Accuracy': [accuracy],
         'Precision': [precision],
         'Recall': [recall],
