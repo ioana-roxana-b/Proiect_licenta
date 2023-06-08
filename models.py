@@ -24,7 +24,8 @@ def lightGBM(X_train, y_train, X_test):
     y_pred = clf.predict(X_test)
     return clf, y_pred
 
-def svm(X_train, y_train, X_test, tuned_parameters=None):
+def svm(X_train, y_train, X_test):
+    tuned_parameters = [{'kernel': ['linear'], 'C': [1]}]
     clf = GridSearchCV(SVC(degree=2, probability=True), tuned_parameters, scoring='accuracy')
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)

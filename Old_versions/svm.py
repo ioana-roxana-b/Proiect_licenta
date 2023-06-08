@@ -14,12 +14,9 @@ def svm(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
         y = data_df['label'].values
 
         skf = StratifiedKFold(n_splits=2, random_state=None, shuffle=False)
-
-        # Perform cross-validation
         for train_index, test_index in skf.split(X, y):
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
-
     else:
         X_train = train_data_df.drop('label', axis=1).values
         y_train = train_data_df['label'].values
