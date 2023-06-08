@@ -1,16 +1,8 @@
-import itertools
-
 import pandas as pd
 from sklearn.ensemble import VotingClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-import svm
-import random_forest
-import knn
-import naive_bayes
-import lgbm
-import grad_boosting
-import additional_functions as adf
+
 
 
 def voting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False,
@@ -19,11 +11,11 @@ def voting(config, train_data_df, test_data_df, data_df, shuffle=False, pc=False
     voting_clf = VotingClassifier(
         estimators=[
             ('rf', clf1),
-            ('svm', clf2),
-            ('nb', clf3),
-            ('lgbm', clf4),
             ('gb', clf5),
-            ('knn', clf6)
+            ('lgbm', clf4),
+            ('svm', clf2),
+            ('knn', clf6),
+            ('nb', clf3)
         ],
         voting='soft'
     )

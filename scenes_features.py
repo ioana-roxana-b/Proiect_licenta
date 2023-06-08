@@ -1,10 +1,5 @@
 import string
-
 import numpy as np
-import pandas as pd
-from nltk import word_tokenize, pos_tag, ngrams
-from sklearn.feature_extraction.text import TfidfVectorizer
-
 import dataset
 import create_vocabs
 import re

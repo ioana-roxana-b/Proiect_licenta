@@ -1,15 +1,10 @@
 import string
-
-import nltk
-import pandas as pd
-
 import create_vocabs
 import dataset
 import math
 import scenes_features
 import numpy as np
-
-from nltk import ngrams, pos_tag, word_tokenize
+from nltk import ngrams
 from nltk.corpus import stopwords
 
 # Returns the number of times a word appears in a scene
@@ -26,7 +21,6 @@ def n_grams_idf(ngram, scenes):
         return 0
     else:
         return math.log(len(scenes) / num_scenes_with_ngram)
-
 
 def n_grams_tf_idf(dir, n):
     scenes = dataset.lower_case_no_punct(dir)
@@ -51,7 +45,6 @@ def n_grams_tf_idf(dir, n):
         scenes[i] = tf_idf_matrix[j]
     # print(scenes)
     return scenes
-
 
 def tf_idf_without_stopwords(dir):
     scenes = dataset.lower_case_no_punct(dir)

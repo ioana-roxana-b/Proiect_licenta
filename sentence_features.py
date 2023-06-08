@@ -1,6 +1,6 @@
 import dataset
-import nltk
 from nltk.corpus import stopwords
+
 def sentence_length_by_characters(dir):
     sentences = dataset.split_scenes_into_phrases(dir)
     lengths = {}

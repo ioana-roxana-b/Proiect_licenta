@@ -1,10 +1,6 @@
-import csv
-
 import numpy as np
 import pandas as pd
 import feature_vect
-import itertools
-
 
 def gen_config(config):
     if config != 4 and config != 13:

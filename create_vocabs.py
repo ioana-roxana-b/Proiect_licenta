@@ -1,5 +1,4 @@
 from nltk import ngrams
-
 import dataset
 
 
@@ -16,7 +15,6 @@ def create_vocab_with_stopwords():
         for word in test_scenes[j]:
             if word not in unique_words:
                 unique_words.append(word)
-
     return unique_words
 
 def create_vocab_n_grams(n):
@@ -34,7 +32,6 @@ def create_vocab_n_grams(n):
             word = ' '.join(ng)
             if word not in unique_ngrams:
                 unique_ngrams.append(word)
-    # print(unique_ngrams)
     return unique_ngrams
 
 def create_vocab_without_stopwords():
@@ -49,7 +46,6 @@ def create_vocab_without_stopwords():
         for word in test_scenes[j]:
             if word not in unique_words:
                 unique_words.append(word)
-    #print(unique_words)
     return unique_words
 
 def pos_vocab():
