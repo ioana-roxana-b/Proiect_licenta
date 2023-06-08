@@ -3,9 +3,9 @@ import classification
 import additional_functions as adf
 
 def test():
-    for c in range(1,2):
-        #print(c+1)
-        for i in range(1):
+    for c in range(7):
+        print(c+1)
+        for i in range(4):
             print(i + 1)
             train, test = adf.read_data(i + 1)
             data = adf.read_data_once(i + 1)
