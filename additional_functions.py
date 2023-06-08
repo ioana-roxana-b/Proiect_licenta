@@ -28,8 +28,8 @@ def read_data_once(config):
     return data_df
 
 
-def delete_files():
-    csv_files = glob.glob(os.path.join('Results', "*.csv"))
+def delete_files(dir):
+    csv_files = glob.glob(os.path.join(dir, "*.csv"))
     # Iterate through the list of .csv files and delete each file
     for file_path in csv_files:
         try:

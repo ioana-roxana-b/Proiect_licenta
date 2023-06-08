@@ -3,7 +3,7 @@ import pandas as pd
 import configs as feature_vect
 
 def gen_config(config):
-    if config != 4 and config != 13:
+    if config != 4 and config != 16 and config != 15:
         feature_extraction_func_name = f'config{config}'
 
         # Access the function from the module
@@ -42,7 +42,7 @@ def gen_config(config):
         # Save all data in a single file
         data_df = pd.concat([train_df, test_df])
         data_df.to_csv(f'new_configs/config{config}.csv', index=False)
-    elif config == 3:
+    elif config == 4 or config == 15:
         # Generate and save the training data
         train_data = feature_vect.config4('Train_dataset')
         labels = []
@@ -57,7 +57,7 @@ def gen_config(config):
 
         train_df = pd.DataFrame(X_train)
         train_df['label'] = y_train
-        train_df.to_csv('new_configs/train_config4.csv', index=False)
+        train_df.to_csv(f'new_configs/train_config{config}.csv', index=False)
 
         # Generate and save the test data
         test_data = feature_vect.config4('Test_dataset')
@@ -73,14 +73,14 @@ def gen_config(config):
 
         test_df = pd.DataFrame(X_test)
         test_df['label'] = y_test
-        test_df.to_csv('new_configs/test_config4.csv', index=False)
+        test_df.to_csv(f'new_configs/test_config{config}.csv', index=False)
 
         # Save all data in a single file
         data_df = pd.concat([train_df, test_df])
-        data_df.to_csv('new_configs/config4.csv', index=False)
-    elif config == 13:
-        new_c = 13
-        for k in [3, 5, 6, 7, 8, 9, 10, 11, 12]:
+        data_df.to_csv(f'new_configs/config{config}.csv', index=False)
+    elif config == 16:
+        new_c = 16
+        for k in [3, 5, 6, 7, 8, 9, 10, 11, 12, 13]:
             train_data = feature_vect.config13('Train_dataset', k)
             labels = []
             values = []

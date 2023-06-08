@@ -43,12 +43,12 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
         X_train, rfe_selector = adf.recursive_feature_elimination(X_train, y_train)
         X_test = rfe_selector.transform(X_test)
 
-    if pc == True and config != 9 and config != 18:
+    if pc == True and config != 21 and config != 18:
         if shuffle :
             new_X, new_X_test = adf.pca(X_train, X_test)
             clf, y_pred, clf_name = models.pick(new_X, y_train, new_X_test, c)
         else:
-            if config != 4:
+            if config != 4 and config != 15:
                 X = np.concatenate((X_test, X_train))
                 y = np.concatenate((y_train, y_test))
                 new_X, new_X_test = adf.pca(X, X_test)
@@ -56,7 +56,7 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
             else:
                 new_X, new_X_test = adf.pca(X_train, X_test)
                 clf, y_pred, clf_name = models.pick(new_X, y_train, new_X_test, c)
-    elif (pc == True and (config == 9 or config == 18)) or (pc == False):
+    elif (pc == True and (config == 21 or config == 18)) or (pc == False):
         clf, y_pred, clf_name = models.pick(X_train, y_train, X_test, c)
 
     accuracy = accuracy_score(y_test, y_pred)
