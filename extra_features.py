@@ -168,7 +168,7 @@ def pos_tf_idf(dir):
     return scenes
 
 #Compute the average word lenghth for each scene
-def avg_word_length(dir):
+def scene_avg_word_length(dir):
     scenes = dataset.delete_punctuation(dir)
     no_of_ch = {}
     for i in scenes.keys():

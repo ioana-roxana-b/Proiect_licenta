@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import feature_vect
+import configs as feature_vect
 
 def gen_config(config):
     if config != 4 and config != 13:
