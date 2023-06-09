@@ -3,7 +3,7 @@ import pandas as pd
 import configs as feature_vect
 
 def gen_config(config):
-    if config != 4 and config != 16 and config != 15:
+    if config != 4 and config != 14:
         feature_extraction_func_name = f'config{config}'
 
         # Access the function from the module
@@ -78,10 +78,10 @@ def gen_config(config):
         # Save all data in a single file
         data_df = pd.concat([train_df, test_df])
         data_df.to_csv(f'new_configs/config{config}.csv', index=False)
-    elif config == 16:
-        new_c = 16
+    elif config == 14:
+        new_c = 14
         for k in [3, 5, 6, 7, 8, 9, 10, 11, 12, 13]:
-            train_data = feature_vect.config13('Train_dataset', k)
+            train_data = feature_vect.config16('Train_dataset', k)
             labels = []
             values = []
             for i in train_data.keys():
@@ -98,7 +98,7 @@ def gen_config(config):
 
 
             # Generate and save the test data
-            test_data = feature_vect.config13('Test_dataset', k)
+            test_data = feature_vect.config16('Test_dataset', k)
             labels_test = []
             values_test = []
             for i in test_data.keys():

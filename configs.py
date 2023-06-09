@@ -257,67 +257,7 @@ def config13(dir):
         concat = []
     return all_feat
 
-def config14(dir):
-    vect1 = scenes_features.no_of_words(dir)
-    vect2 = scenes_features.no_of_stop_words(dir)
-    vect3 = scenes_features.no_of_contracted_wordforms(dir)
-    vect4 = extra_features.scene_avg_word_length(dir)
-    vect5 = extra_features.tf_idf_for_stopwords(dir)
-    vect6 = scenes_features.tf_idf_with_stopwords(dir)
-    vect7 = extra_features.tf_idf_without_stopwords(dir)
-    vect8 = extra_features.n_grams_tf_idf(dir,3)
-    vect9 = extra_features.pos_tf_idf(dir)
-    vect10 = extra_features.punc_tf_idf(dir)
-
-    all_feat = {}
-    concat = []
-    for i in vect1.keys():
-        concat.append(vect1[i])
-        concat.append(vect2[i])
-        concat.append(vect3[i])
-        concat.append(vect4[i])
-        for a in vect5[i]:
-            concat.append(a)
-        for b in vect6[i]:
-            concat.append(b)
-        for c in vect7[i]:
-            concat.append(c)
-        for d in vect8[i]:
-            concat.append(d)
-        for e in vect9[i]:
-            concat.append(e)
-        for f in vect10[i]:
-            concat.append(f)
-        all_feat[i] = concat
-
-        concat = []
-    return all_feat
-
-def config15(dir):
-    vect11 = sentence_features.sentence_length_by_word(dir)
-    vect12 = sentence_features.sentence_length_by_characters(dir)
-    vect13 = sentence_features.avg_word_length(dir)
-    vect14 = sentence_features.stopwords_count(dir)
-
-    all_feat_vect = config14(dir)
-    sentence_features_vect = {}
-    aux1 = []
-    for i in vect11.keys():
-        sentence_features_vect.setdefault(i, {})
-        for j in vect11[i].keys():
-            if j == '':
-                continue
-            aux1.append(vect11[i][j])
-            aux1.append(vect12[i][j])
-            aux1.append(vect13[i][j])
-            aux1.append(vect14[i][j])
-            aux1 += all_feat_vect[i]
-            #print(len(aux1))
-            sentence_features_vect[i][j] = aux1
-            aux1 = []
-
-    return sentence_features_vect
-def config16(dir, config):
+def config14(dir, config):
     vect11 = sentence_features.sentence_length_by_word(dir)
     vect12 = sentence_features.sentence_length_by_characters(dir)
     vect13 = sentence_features.avg_word_length(dir)

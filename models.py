@@ -69,11 +69,11 @@ def pick(X_train, y_train, X_test, c=0):
     elif c == 3:
         clf, y_pred = lightGBM(X_train, y_train, X_test)
     elif c == 4:
-        clf, y_pred = svm(X_train, y_train, X_test)
-    elif c == 5:
         clf, y_pred = knn(X_train, y_train, X_test)
-    elif c == 6:
+    elif c == 5:
         clf, y_pred = naive_bayes(X_train, y_train, X_test)
+    elif c == 6:
+        clf, y_pred = svm(X_train, y_train, X_test)
     elif c == 7:
         clf1, y_pred = random_forest(X_train, y_train, X_test)
         clf2, y_pred = grad_boost(X_train, y_train, X_test)
