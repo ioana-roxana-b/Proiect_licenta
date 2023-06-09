@@ -42,7 +42,7 @@ def gen_config(config):
         # Save all data in a single file
         data_df = pd.concat([train_df, test_df])
         data_df.to_csv(f'new_configs/config{config}.csv', index=False)
-    elif config == 4 or config == 15:
+    elif config == 4:
         # Generate and save the training data
         train_data = feature_vect.config4('Train_dataset')
         labels = []
@@ -81,7 +81,7 @@ def gen_config(config):
     elif config == 14:
         new_c = 14
         for k in [3, 5, 6, 7, 8, 9, 10, 11, 12, 13]:
-            train_data = feature_vect.config16('Train_dataset', k)
+            train_data = feature_vect.config14('Train_dataset', k)
             labels = []
             values = []
             for i in train_data.keys():
@@ -98,7 +98,7 @@ def gen_config(config):
 
 
             # Generate and save the test data
-            test_data = feature_vect.config16('Test_dataset', k)
+            test_data = feature_vect.config14('Test_dataset', k)
             labels_test = []
             values_test = []
             for i in test_data.keys():

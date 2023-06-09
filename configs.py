@@ -8,11 +8,11 @@ def config1(dir):
     vect1 = scenes_features.no_of_words(dir)
     vect2 = scenes_features.no_of_stop_words(dir)
     vect3 = scenes_features.no_of_contracted_wordforms(dir)
-    vect4 = extra_features.scene_avg_word_length(dir)
+    vect4 = scenes_features.scene_avg_word_length(dir)
     vect5 = extra_features.tf_idf_for_stopwords(dir)
-    vect6 = scenes_features.tf_idf_with_stopwords(dir)
+    vect6 = extra_features.tf_idf_with_stopwords(dir)
     vect7 = extra_features.tf_idf_without_stopwords(dir)
-    vect8 = extra_features.n_grams_tf_idf(dir,2)
+    vect8 = extra_features.n_grams_tf_idf(dir, 2)
     vect9 = extra_features.pos_tf_idf(dir)
     vect10 = extra_features.punc_tf_idf(dir)
 
@@ -43,7 +43,7 @@ def config1(dir):
 #All tf-idf for scenes
 def config2(dir):
     vect5 = extra_features.tf_idf_for_stopwords(dir)
-    vect6 = scenes_features.tf_idf_with_stopwords(dir)
+    vect6 = extra_features.tf_idf_with_stopwords(dir)
     vect7 = extra_features.tf_idf_without_stopwords(dir)
     vect8 = extra_features.n_grams_tf_idf(dir, 2)
     vect9 = extra_features.pos_tf_idf(dir)
@@ -75,7 +75,7 @@ def config3(dir):
     vect1 = scenes_features.no_of_words(dir)
     vect2 = scenes_features.no_of_stop_words(dir)
     vect3 = scenes_features.no_of_contracted_wordforms(dir)
-    vect4 = extra_features.scene_avg_word_length(dir)
+    vect4 = scenes_features.scene_avg_word_length(dir)
     vect5 = extra_features.tf_idf_for_stopwords(dir)
 
     all_feat = {}
@@ -122,7 +122,7 @@ def config4(dir):
 #TF-IDF for words
 def config5(dir):
     vect5 = extra_features.tf_idf_for_stopwords(dir)
-    vect6 = scenes_features.tf_idf_with_stopwords(dir)
+    vect6 = extra_features.tf_idf_with_stopwords(dir)
     vect7 = extra_features.tf_idf_without_stopwords(dir)
 
     all_feat = {}
@@ -163,7 +163,7 @@ def config7(dir):
     vect1 = scenes_features.no_of_words(dir)
     vect2 = scenes_features.no_of_stop_words(dir)
     vect3 = scenes_features.no_of_contracted_wordforms(dir)
-    vect4 = extra_features.scene_avg_word_length(dir)
+    vect4 = scenes_features.scene_avg_word_length(dir)
     vect5 = extra_features.tf_idf_for_stopwords(dir)
     vect9 = extra_features.pos_tf_idf(dir)
 
@@ -209,7 +209,7 @@ def config9(dir):
     return all_feat
 
 def config10(dir):
-    vect6 = scenes_features.tf_idf_with_stopwords(dir)
+    vect6 = extra_features.tf_idf_with_stopwords(dir)
     all_feat = {}
     concat = []
     for i in vect6.keys():

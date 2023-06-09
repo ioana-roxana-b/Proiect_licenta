@@ -48,7 +48,7 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
             new_X, new_X_test = adf.pca(X_train, X_test)
             clf, y_pred, clf_name = models.pick(new_X, y_train, new_X_test, c)
         else:
-            if config != 4 and config != 15:
+            if config != 4:
                 X = np.concatenate((X_test, X_train))
                 y = np.concatenate((y_train, y_test))
                 new_X, new_X_test = adf.pca(X, X_test)
