@@ -85,9 +85,9 @@ def lasso_threshold(X_train, X_test, y_train):
 
 
 def recursive_feature_elimination(X_train, y_train):
-    model = LogisticRegression(solver='liblinear')
+    #model = LogisticRegression(solver='liblinear')
     #model = LinearSVC()
-    #model = DecisionTreeClassifier(random_state=50)
+    model = DecisionTreeClassifier(random_state=50)
     # model = SVR(kernel="linear")
     rfe = RFECV(estimator=model)
     rfe.fit(X_train, y_train)
