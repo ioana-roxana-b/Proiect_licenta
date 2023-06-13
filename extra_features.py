@@ -89,7 +89,7 @@ def tf_idf_for_stopwords(dir):
     # print(scenes)
     return scenes
 
-# Returns the number of times a word appears in a scene
+# Returns the number of times a ngram appears in a scene
 def n_grams_tf(ngram, scene):
     words = list(ngrams(scene.split(), len(ngram.split())))
     words_str = [' '.join(word) for word in words]
@@ -161,7 +161,7 @@ def punc_tf_idf(dir):
     return scenes
 
 
-# Returns the number of times a word appears in a scene
+# Returns the number of times a pos appears in a scene
 def pos_tf(pos, scene):
     count = 0
     for j in scene:
@@ -170,7 +170,7 @@ def pos_tf(pos, scene):
             count +=1
     return count
 
-# Returns the logarithmically scaled inverse fraction of the scenes that contain the word
+# Returns the logarithmically scaled inverse fraction of the scenes that contain the pos
 def pos_idf(pos, scenes):
     num_scenes_with_pos = 0
     for i in scenes.keys():

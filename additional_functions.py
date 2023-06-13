@@ -89,7 +89,7 @@ def recursive_feature_elimination(X_train, y_train):
     #model = LinearSVC()
     model = DecisionTreeClassifier(random_state=50)
     # model = SVR(kernel="linear")
-    rfe = RFECV(estimator=model)
+    rfe = RFECV(estimator=model, n_jobs=-1, cv=5, scoring='accuracy')
     rfe.fit(X_train, y_train)
     X_train_rfe = rfe.transform(X_train)
     return X_train_rfe, rfe

@@ -4,9 +4,9 @@ import time
 import generate_dataset
 if __name__ == '__main__':
 
-    #adf.delete_files('Results')
+    adf.delete_files('Results')
     start_time = time.time()
-    run.test_rfe()
+    run.test()
 
     end_time = time.time()
     elapsed_time = end_time - start_time
