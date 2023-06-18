@@ -11,7 +11,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import LinearSVC, SVR
 import pandas as pd
 
-
 def read_data(config):
     train_data_path = f'new_configs/train_config{config}.csv'
     test_data_path = f'new_configs/test_config{config}.csv'
@@ -36,7 +35,6 @@ def delete_files(dir):
             os.remove(file_path)
         except OSError as e:
             print(f"Error: {file_path} : {e.strerror}")
-
 
 def pca(X_train, X_test):
     pca = PCA(n_components=10)

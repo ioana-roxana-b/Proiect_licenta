@@ -74,3 +74,4 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
         'F1 Score': [f1]
     })
     results_df.to_csv(f'Results/results_{clf_name}.csv', mode='a', index=False)
+    return accuracy

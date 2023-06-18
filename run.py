@@ -1,12 +1,14 @@
 import itertools
+
+from matplotlib import pyplot as plt
+
 import classification
 import additional_functions as adf
 
-
 def test():
-    for c in range(5, 7):
+    for c in range(7):
         print("Clasificatorul: ",c + 1)
-        for i in range(23):
+        for i in range(14):
             print(i + 1)
             train, test = adf.read_data(i + 1)
             data = adf.read_data_once(i + 1)
@@ -19,12 +21,11 @@ def test():
                                                       shuffle=shuffle, pc=pca, scal=scal, minmax=minmax, lasso=lasso,
                                                       lasso_t=lasso_t,
                                                       rfe=False)
-
-
 def test_rfe():
-    train, test = adf.read_data(4)
-    data = adf.read_data_once(4)
+    train, test = adf.read_data(2)
+    data = adf.read_data_once(2)
     print(data.shape)
-    classification.classification(c=2, config=4, train_data_df=train, test_data_df=test, data_df=data,
-                              shuffle=True, pc=False, scal=True, minmax=False, lasso=False, lasso_t=False,
+    classification.classification(c=1, config=2, train_data_df=train, test_data_df=test, data_df=data,
+                              shuffle=True, pc=False, scal=False, minmax=True, lasso=False, lasso_t=False,
                               rfe=True)
+
