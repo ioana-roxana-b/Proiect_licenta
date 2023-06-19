@@ -8,6 +8,7 @@ def gen_config(config):
 
         feature_extraction_func = getattr(feature_vect, feature_extraction_func_name)
 
+        #Se genereaza setul de antrenare și se salvează în format csv
         train_data = feature_extraction_func('Train_dataset')
         labels = []
         values = []
@@ -22,6 +23,7 @@ def gen_config(config):
         train_df['label'] = y_train
         train_df.to_csv(f'configs/train_config{config}.csv', index=False)
 
+        #Se genereaza setul de testare și se salvează în format csv
         test_data = feature_extraction_func('Test_dataset')
         labels_test = []
         values_test = []
@@ -36,6 +38,8 @@ def gen_config(config):
         test_df['label'] = y_test
         test_df.to_csv(f'configs/test_config{config}.csv', index=False)
 
+        #Ambele seturi sunt salvate in acelasi fisier
+        #utilizat pentru cazurile in care aplicam metoda Stratified K-Fold cross-validator
         data_df = pd.concat([train_df, test_df])
         data_df.to_csv(f'configs/config{config}.csv', index=False)
     elif config == 4:

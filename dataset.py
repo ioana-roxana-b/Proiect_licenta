@@ -14,6 +14,7 @@ def read_text(dir_path):
     text = re.sub(r'(^[A-Z]+\d*:)|(^[A-Z_]+:)', '', text, flags=re.MULTILINE)
     return text
 
+#Segmentarea textului la nivel de scenă
 def split_text_into_scenes(dir):
     text = read_text(dir)
     sc = {}
@@ -29,6 +30,7 @@ def split_text_into_scenes(dir):
 
     return sc
 
+#Segmentarea textului la nivel de frază
 def split_scenes_into_phrases(dir):
     scenes = split_text_into_scenes(dir)
     for i in scenes.keys():
@@ -37,6 +39,7 @@ def split_scenes_into_phrases(dir):
         scenes[i] = phrases
     return scenes
 
+#Funcții de procesare a textului
 def delete_punctuation(dir):
     scenes = split_text_into_scenes(dir)
     for i in scenes.keys():

@@ -9,6 +9,10 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
                   scal=False, minmax=False, lasso=False, lasso_t=False, rfe=False):
 
     if shuffle:
+
+        #Daca shuffle e True aplicăm metoda Stratified K-Fold cross-validator si utilizam ambele opere
+        #pentru a forma seturile de antrenare și testare
+
         X = data_df.drop('label', axis=1).values
         y = data_df['label'].values
 
@@ -17,6 +21,11 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
     else:
+
+        #Pentru cazurile în care nu aplicăm Stratified K-Fold cross-validator
+        #setul de antrenare este format din opera "The Two Noble Kinsmen", iar
+        #setul de testare din opera "Henry VIII"
+
         X_train = train_data_df.drop('label', axis=1).values
         y_train = train_data_df['label'].values
 
@@ -27,6 +36,7 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
     y_train = le.fit_transform(y_train)
     y_test = le.transform(y_test)
 
+    #Se aplica metodele de preprocesare a setului de trăsături
     if minmax == True:
         X_train, X_test = adf.minmax_sc(X_train, X_test)
 
@@ -59,6 +69,7 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
     elif (pc == True and (config == 19 or config == 9)) or (pc == False):
         clf, y_pred, clf_name = models.pick(X_train, y_train, X_test, c)
 
+    #Se calculează metricile de performanță și se salvează într-un fișier csv
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='macro', zero_division=1)
     recall = recall_score(y_test, y_pred, average='macro', zero_division=1)

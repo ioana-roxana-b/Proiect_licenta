@@ -6,6 +6,7 @@ import generate_dataset
 if __name__ == '__main__':
 
     """""
+    #Secvența de cod pentru generarea seturilor de trăsături corespunzătoare celor 23 de configurații
     for i in range(23):
         generate_dataset.gen_config(i+1)
     """

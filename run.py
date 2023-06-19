@@ -2,6 +2,8 @@ import itertools
 import classification
 import additional_functions as adf
 
+#Funcția utilizată pentru antrenarea și testarea modelelor pentru toate configurațiile și utilizând toate
+#metodele de preprocesare a setului de date
 def test():
     for c in range(7):
         print("Clasificatorul: ", c + 1)

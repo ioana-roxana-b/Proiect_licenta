@@ -15,10 +15,8 @@ from sklearn.svm import LinearSVC, SVR
 def read_data(config):
     train_data_path = f'configs/train_config{config}.csv'
     test_data_path = f'configs/test_config{config}.csv'
-
     train_data_df = pd.read_csv(train_data_path)
     test_data_df = pd.read_csv(test_data_path)
-
     return train_data_df, test_data_df
 
 
