@@ -1,13 +1,10 @@
 import itertools
-
-from matplotlib import pyplot as plt
-
 import classification
 import additional_functions as adf
 
 def test():
     for c in range(7):
-        print("Clasificatorul: ",c + 1)
+        print("Clasificatorul: ", c + 1)
         for i in range(14):
             print(i + 1)
             train, test = adf.read_data(i + 1)

@@ -67,7 +67,7 @@ def classification(c, config, train_data_df, test_data_df, data_df, shuffle=Fals
     results_df = pd.DataFrame({
         'Classifier': [clf_name],
         'Configuration': [
-        f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}, lasso_threshold={lasso_t}, rfe={rfe}'],
+         f'config={config},  shuffle={shuffle}, pca={pc}, scal={scal}, minmax={minmax}, lasso={lasso}, lasso_threshold={lasso_t}, rfe={rfe}'],
         'Accuracy': [accuracy],
         'Precision': [precision],
         'Recall': [recall],

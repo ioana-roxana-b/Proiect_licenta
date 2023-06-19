@@ -15,7 +15,6 @@ def sentence_length_by_characters(dir):
 def sentence_length_by_word(dir):
     sentences = dataset.split_scenes_into_phrases(dir)
     lengths = {}
-
     for i in sentences.keys():
         for j in sentences[i]:
             words = j.split()
@@ -27,7 +26,6 @@ def sentence_length_by_word(dir):
 def avg_word_length(dir):
     sentences = dataset.split_scenes_into_phrases(dir)
     lengths = {}
-
     for i in sentences.keys():
         for j in sentences[i]:
             words = j.split()
@@ -41,7 +39,6 @@ def avg_word_length(dir):
 def stopwords_count(dir):
     stop_words = set(stopwords.words('english'))
     sentences = dataset.split_scenes_into_phrases(dir)
-
     stopword_count = {}
     for i in sentences.keys():
         for j in sentences[i]:

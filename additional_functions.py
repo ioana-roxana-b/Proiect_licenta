@@ -1,19 +1,20 @@
 import glob
 import os
 import numpy as np
-from sklearn.feature_selection import RFECV, SelectFromModel
+import pandas as pd
+from sklearn.feature_selection import RFECV
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Lasso
-from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC, SVR
-import pandas as pd
+
 
 def read_data(config):
-    train_data_path = f'new_configs/train_config{config}.csv'
-    test_data_path = f'new_configs/test_config{config}.csv'
+    train_data_path = f'configs/train_config{config}.csv'
+    test_data_path = f'configs/test_config{config}.csv'
 
     train_data_df = pd.read_csv(train_data_path)
     test_data_df = pd.read_csv(test_data_path)
@@ -22,14 +23,13 @@ def read_data(config):
 
 
 def read_data_once(config):
-    data_path = f'new_configs/config{config}.csv'
+    data_path = f'configs/config{config}.csv'
     data_df = pd.read_csv(data_path)
     return data_df
 
 
 def delete_files(dir):
     csv_files = glob.glob(os.path.join(dir, "*.csv"))
-    # Iterate through the list of .csv files and delete each file
     for file_path in csv_files:
         try:
             os.remove(file_path)
@@ -65,8 +65,6 @@ def lasso(X_train, X_test, y_train):
     idx_nonzero = np.nonzero(coef)[0]
     X_train = X_train[:, idx_nonzero]
     X_test = X_test[:, idx_nonzero]
-    # print(len(X_train))
-    # print(len(X_test))
     return X_train, X_test
 
 def lasso_threshold(X_train, X_test, y_train):
@@ -85,8 +83,8 @@ def lasso_threshold(X_train, X_test, y_train):
 def recursive_feature_elimination(X_train, y_train):
     #model = LogisticRegression(solver='liblinear')
     #model = LinearSVC()
+    #model = SVR(kernel="linear")
     model = DecisionTreeClassifier(random_state=50)
-    # model = SVR(kernel="linear")
     rfe = RFECV(estimator=model, n_jobs=-1, cv=5, scoring='accuracy')
     rfe.fit(X_train, y_train)
     X_train_rfe = rfe.transform(X_train)

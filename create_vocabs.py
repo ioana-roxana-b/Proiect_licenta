@@ -2,7 +2,7 @@ from nltk import ngrams
 import dataset
 
 
-# Create a list of unique words
+#Crează o listă cu toate cuvintele din cele două texte
 def create_vocab_with_stopwords():
     train_scenes = dataset.text_tokenized_stopwords('Train_dataset')
     test_scenes = dataset.text_tokenized_stopwords('Test_dataset')
@@ -17,6 +17,7 @@ def create_vocab_with_stopwords():
                 unique_words.append(word)
     return unique_words
 
+#Crează o listă cu toate n-gramele din cele două texte
 def create_vocab_n_grams(n):
     train_scenes = dataset.text_tokenized_stopwords('Train_dataset')
     test_scenes = dataset.text_tokenized_stopwords('Test_dataset')
@@ -34,6 +35,7 @@ def create_vocab_n_grams(n):
                 unique_ngrams.append(word)
     return unique_ngrams
 
+#Crează o listă cu toate cuvintele din cele două texte, mai puțin cuvintele funcționale
 def create_vocab_without_stopwords():
     train_scenes = dataset.text_tokenized_no_stopwords('Train_dataset')
     test_scenes = dataset.text_tokenized_no_stopwords('Test_dataset')
@@ -48,6 +50,7 @@ def create_vocab_without_stopwords():
                 unique_words.append(word)
     return unique_words
 
+#Crează o listă cu toate părțile de vorbire din cele două texte
 def pos_vocab():
     train_scenes = dataset.text_pos_tokenized_stopwords('Train_dataset')
     test_scenes = dataset.text_pos_tokenized_stopwords('Test_dataset')

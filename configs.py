@@ -3,7 +3,6 @@ import scenes_features
 import extra_features
 import sentence_features
 
-#All scene features
 def config1(dir):
     vect1 = scenes_features.no_of_words(dir)
     vect2 = scenes_features.no_of_stop_words(dir)
@@ -40,7 +39,6 @@ def config1(dir):
         concat = []
     return all_feat
 
-#All tf-idf for scenes
 def config2(dir):
     vect5 = extra_features.tf_idf_for_stopwords(dir)
     vect6 = extra_features.tf_idf_with_stopwords(dir)
@@ -65,12 +63,10 @@ def config2(dir):
         for f in vect10[i]:
             concat.append(f)
         all_feat[i] = concat
-        #print(len(concat))
         concat = []
     return all_feat
 
 
-#All non tf-idf features for scenes + tf-idf for stopwords
 def config3(dir):
     vect1 = scenes_features.no_of_words(dir)
     vect2 = scenes_features.no_of_stop_words(dir)
@@ -88,12 +84,10 @@ def config3(dir):
         for c in vect5[i]:
             concat.append(c)
         all_feat[i] = concat
-        #print(len(concat))
         concat = []
 
     return all_feat
 
-#All sentence features + all scenes features
 def config4(dir):
     vect11 = sentence_features.sentence_length_by_word(dir)
     vect12 = sentence_features.sentence_length_by_characters(dir)
@@ -113,13 +107,11 @@ def config4(dir):
             aux1.append(vect13[i][j])
             aux1.append(vect14[i][j])
             aux1 += all_feat_vect[i]
-            #print(len(aux1))
             sentence_features_vect[i][j] = aux1
             aux1 = []
 
     return sentence_features_vect
 
-#TF-IDF for words
 def config5(dir):
     vect5 = extra_features.tf_idf_for_stopwords(dir)
     vect6 = extra_features.tf_idf_with_stopwords(dir)
@@ -135,7 +127,6 @@ def config5(dir):
         for c in vect7[i]:
             concat.append(c)
         all_feat[i] = concat
-        #print(len(concat))
         concat = []
     return all_feat
 
@@ -154,7 +145,6 @@ def config6(dir):
         for f in vect10[i]:
             concat.append(f)
         all_feat[i] = concat
-        # print(len(concat))
         concat = []
     return all_feat
 
@@ -179,7 +169,6 @@ def config7(dir):
         for d in vect9[i]:
             concat.append(d)
         all_feat[i] = concat
-        #print(len(concat))
         concat = []
 
     return all_feat
@@ -192,7 +181,6 @@ def config8(dir):
         for d in vect8[i]:
             concat.append(d)
         all_feat[i] = concat
-        # print(len(concat))
         concat = []
     return all_feat
 
@@ -204,7 +192,6 @@ def config9(dir):
         for d in vect9[i]:
             concat.append(d)
         all_feat[i] = concat
-        # print(len(concat))
         concat = []
     return all_feat
 
@@ -216,7 +203,6 @@ def config10(dir):
         for a in vect6[i]:
             concat.append(a)
         all_feat[i] = concat
-        #print(len(concat))
         concat = []
     return all_feat
 
@@ -241,7 +227,6 @@ def config12(dir):
         for a in vect5[i]:
             concat.append(a)
         all_feat[i] = concat
-        #print(len(concat))
         concat = []
     return all_feat
 
@@ -253,7 +238,6 @@ def config13(dir):
         for d in vect8[i]:
             concat.append(d)
         all_feat[i] = concat
-        # print(len(concat))
         concat = []
     return all_feat
 
@@ -278,7 +262,6 @@ def config14(dir, config):
             aux1.append(vect13[i][j])
             aux1.append(vect14[i][j])
             aux1 += all_feat_vect[i]
-            # print(len(aux1))
             sentence_features_vect[i][j] = aux1
             aux1 = []
 

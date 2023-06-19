@@ -14,7 +14,6 @@ def read_text(dir_path):
     text = re.sub(r'(^[A-Z]+\d*:)|(^[A-Z_]+:)', '', text, flags=re.MULTILINE)
     return text
 
-# Split text in scenes
 def split_text_into_scenes(dir):
     text = read_text(dir)
     sc = {}
@@ -30,16 +29,13 @@ def split_text_into_scenes(dir):
 
     return sc
 
-
 def split_scenes_into_phrases(dir):
     scenes = split_text_into_scenes(dir)
     for i in scenes.keys():
-        # Split text into phrases
         phrases = re.split(r'[.!?]+', scenes[i])
         phrases = [phrase.strip() for phrase in phrases]
         scenes[i] = phrases
     return scenes
-
 
 def delete_punctuation(dir):
     scenes = split_text_into_scenes(dir)
@@ -62,14 +58,12 @@ def lower_case_with_punct(dir):
         scenes[i] = str.lower(scenes[i])
     return scenes
 
-# Tokenize text including stopwords
 def text_tokenized_stopwords(dir):
     scenes = lower_case_no_punct(dir)
     for i in scenes.keys():
         scenes[i] = nltk.word_tokenize(scenes[i])
     return scenes
 
-# Tokenize text without stopwords
 def text_tokenized_no_stopwords(dir):
     scenes = text_tokenized_stopwords(dir)
     nltk_stopw = stopwords.words('english')

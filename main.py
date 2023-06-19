@@ -2,9 +2,13 @@ import additional_functions as adf
 import run
 import time
 import generate_dataset
-import tests
 
 if __name__ == '__main__':
+
+    """""
+    for i in range(23):
+        generate_dataset.gen_config(i+1)
+    """
 
     adf.delete_files('Results')
     start_time = time.time()
